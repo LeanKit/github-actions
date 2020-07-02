@@ -1,0 +1,23 @@
+{
+  "name": "github-actions",
+  "version": "0.0.1",
+  "description": "* _Required_ Minium value for random number. Default 0. #### \"max-value\" * _Required_ Maximum value for random number. Default 100. ### Outputs #### \"random\" The random number you requested. ### Example Usage ``` uses: leankit/github-actions/randomNumber@v1 with:   min-value: 10   max-value: 20 ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Leankit/github-actions.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Leankit/github-actions/issues"
+  },
+  "homepage": "https://github.com/Leankit/github-actions#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^4.0.0"
+  }
+}
