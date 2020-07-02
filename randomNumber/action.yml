@@ -14,4 +14,4 @@ outputs:
     description: "The random value you requested"
 runs:
   using: "node12"
-  main: "../dist/index.js"
+  main: "dist/index.js"
