@@ -1,6 +1,9 @@
 name: "Random Number"
 description: "Give me a random number"
 inputs:
+  repo-token:  # id of input
+    description: "github token from secrets"
+    required: false
   min-val:  # id of input
     description: "min random number?"
     required: true
