@@ -4,7 +4,14 @@
   "description": "* _Required_ Minium value for random number. Default 0. #### \"max-value\" * _Required_ Maximum value for random number. Default 100. ### Outputs #### \"random\" The random number you requested. ### Example Usage ``` uses: leankit/github-actions/randomNumber@v1 with:   min-value: 10   max-value: 20 ```",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint --fix ./",
+    "pretest": "npm run lint",
+    "test:only": "NODE_ENV=test mocha --opts 'spec/mocha.opts' -R spec 'actions/**/*.spec.js'",
+    "test:watch": "nodemon --exec \"NODE_ENV=test mocha --opts 'spec/mocha.opts' -R spec 'actions/**/*.spec.js' || true\" -e js,json,sql",
+    "test": "npm run cover",
+    "cover": "nyc -r text-summary -r html -- npm run test:only",
+    "cover:ci": "nyc -r text-summary -r html -- npm run test:ci",
+    "cover:show": "open \"file://$PWD/coverage/index.html\""
   },
   "repository": {
     "type": "git",
@@ -18,6 +25,22 @@
   "homepage": "https://github.com/Leankit/github-actions#readme",
   "dependencies": {
     "@actions/core": "^1.2.4",
-    "@actions/github": "^4.0.0"
+    "@actions/github": "^4.0.0",
+    "http-status": "^1.4.2",
+    "require-uncached": "^2.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "dirty-chai": "^2.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-leankit": "^5.1.0",
+    "hippie": "^0.5.1",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.19.4",
+    "nyc": "^15.0.0",
+    "proxyquire": "^2.1.3",
+    "sinon": "^7.5.0",
+    "sinon-chai": "^3.4.0"
   }
 }
