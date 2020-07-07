@@ -1,0 +1,17 @@
+name: random-one
+on:
+  pull_request:
+      branches: [ master ]
+jobs:
+  createCard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create card in leankit
+        id: create
+        uses: "./actions/createCardFromDependabot"
+        with:
+          api-token: "THIS IS NOT MY TOKEN"
+          leankit-board-url: "https://d03.leankit.io/board/10126868525"
+          review-lane: "10126868626"
+          ready-to-merge-lane: "10126868629"
