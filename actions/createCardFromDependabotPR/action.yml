@@ -1,0 +1,23 @@
+name: "Create Card"
+description: "Create a LeanKit card"
+inputs:
+  api-token:
+    description: Api Token with write access to your LeanKit board
+    required: true
+  leankit-board-url:
+    description: Url of the board where cards should be created
+    required: true
+  review-lane:
+    description: Id or Title of your "ready to review" lane
+    required: true
+  ready-to-merge-lane:
+    description: Id or Title of your "ready-to-merge" lane
+    required: true
+outputs:
+  cardId:
+    description: Id of the new card
+  error:
+    description: Error message if an error occurred
+runs:
+  using: "node12"
+  main: "dist/index.js"

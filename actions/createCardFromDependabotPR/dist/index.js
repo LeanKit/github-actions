@@ -40,7 +40,7 @@ module.exports =
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(493);
+/******/ 		return __webpack_require__(139);
 /******/ 	};
 /******/ 	// initialize runtime
 /******/ 	runtime(__webpack_require__);
@@ -19434,6 +19434,123 @@ module.exports = require("child_process");
 
 /***/ }),
 
+/***/ 139:
+/***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
+
+"use strict";
+
+
+const core = __webpack_require__( 18 );
+const github = __webpack_require__( 717 );
+const { isNaN } = __webpack_require__( 15 );
+const leankitApiFactory = __webpack_require__( 265 );
+
+function validateParams( params ) {
+	const values = [];
+	for (const param of params) {
+		const value = core.getInput( param );
+		if( !value ) {
+			throw new Error( `Expected '${ param }' action parameter` );
+		}
+		values.push( value );
+	}
+	return values;
+}
+
+const action = async ( {
+	baseUrl,
+	boardId,
+	apiToken,
+	reviewLaneIdOrTitle,
+	readyToMergeLaneIdOrTitle,
+	needsDevReview
+} ) => {
+	const { number, title } = github.context.payload.pull_request;
+	const { getBoard, createCard } = leankitApiFactory( baseUrl, apiToken );
+
+	let reviewLaneId = reviewLaneIdOrTitle;
+	let readyLaneId = readyToMergeLaneIdOrTitle;
+
+	if ( isNaN( Number( reviewLaneIdOrTitle ) ) || isNaN( Number( readyToMergeLaneIdOrTitle ) ) ) {
+		const board = await getBoard( boardId );
+		const reviewLane = board.lanes.find( l => l.title === reviewLaneIdOrTitle );
+		if ( !reviewLane ) {
+			throw new Error( `Expected to find a lane matching '${ reviewLaneIdOrTitle }' on board '${ boardId }` );
+		}
+
+		const readyLane = board.lanes.find( l => l.title === readyToMergeLaneIdOrTitle );
+		if ( !readyLane ) {
+			throw new Error( `Expected to find a lane matching '${ readyToMergeLaneIdOrTitle }' on board '${ boardId }` );
+		}
+
+		reviewLaneId = reviewLane.id;
+		readyLaneId = readyLane.id;
+	}
+
+	// actions: reopened,
+	console.log( "payload", JSON.stringify( github.context.payload, null, 2 ) );
+
+	let laneId = needsDevReview ? reviewLaneId : readyLaneId;
+
+	const id = await createCard( {
+		title,
+		laneId
+	} );
+
+	core.setOutput( "result", {
+		createdCardId: id
+	} );
+};
+
+const [
+	leankitBoardUrl,
+	apiToken,
+	reviewLaneIdOrTitle,
+	readyToMergeLaneIdOrTitle
+] = validateParams( [ "leankit-board-url", "api-token", "review-lane", "ready-to-merge-lane" ] );
+
+const match = /^(https:.+)\/board\/([0-9]+)/i.exec( leankitBoardUrl );
+if( !match ) {
+	throw new Error( "Expected a url for 'leankit-board-url' action parameter" );
+}
+const [ , baseUrl, boardId ] = match;
+
+if( !github.context.payload.pull_request ) {
+	throw new Error( "This action may be triggered by a pull_request only." );
+}
+
+const { number, title, user: { login } } = github.context.payload.pull_request;
+console.log( `Checking PR#${ number }: '${ title }' from ${ login }` );
+
+const titleMatch = /^.+from (.*) to (.*)/.exec( title );
+if( !titleMatch || !login.includes( "dependabot" ) ) {
+	core.setOutput( "result", { message: `ignoring PR #${ number } '${ title }' from ${ login }` } );
+	return;
+}
+
+const [ , oldVersion, newVersion ] = titleMatch;
+const [ oldMajorVersion ] = oldVersion.split( "." );
+const [ newMajorVersion ] = newVersion.split( "." );
+const needsDevReview = newMajorVersion !== oldMajorVersion;
+
+try{
+	action( {
+		baseUrl,
+		boardId,
+		apiToken,
+		reviewLaneIdOrTitle,
+		readyToMergeLaneIdOrTitle,
+		needsDevReview
+	} );
+} catch ( ex ) {
+	console.log( "ex.message:", ex.message );
+	throw ex;
+}
+
+
+
+/***/ }),
+
 /***/ 145:
 /***/ (function(module) {
 
@@ -20214,6 +20331,22 @@ module.exports = opts => {
 
 /***/ }),
 
+/***/ 265:
+/***/ (function(module) {
+
+module.exports = () => {
+    return {
+        createCard: card => {
+            console.log( `create card '${ card.title }' in lane '${ card.laneId }` );
+        },
+        getBoard: id => {
+            console.log( `get board id '${ id }'` );
+        }
+    }
+}
+
+/***/ }),
+
 /***/ 274:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
@@ -20962,32 +21095,6 @@ if (process.platform === 'linux') {
   )
 }
 
-
-/***/ }),
-
-/***/ 493:
-/***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
-
-const core = __webpack_require__( 18 );
-const github = __webpack_require__( 717 );
-const { compact } = __webpack_require__(15);
-
-try {
-  // `who-to-greet` input defined in action metadata file
-  const minValue = Number( core.getInput( "min-val" ) );
-  const maxValue = Number( core.getInput( "max-val" ) );
-  console.log( "minValue:", minValue );
-  console.log( "maxValue:", maxValue );
-  console.log( "core.getInput( 'repo-token' ):", core.getInput( 'repo-token' ) );
-  
-  const rando = Math.floor( Math.random() * (maxValue - minValue + 1) + minValue );
-  console.log( "rando:", rando );
-  core.setOutput( "random", rando );
-  console.log( "Object.keys( github ):", Object.keys( github ) );
-  console.log( "Object.keys( github.context ):", Object.keys( github.context ) );
-} catch (error) {
-  core.setFailed(error.message);
-}
 
 /***/ }),
 
