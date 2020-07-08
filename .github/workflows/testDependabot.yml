@@ -1,4 +1,4 @@
-name: random-one
+name: testDependabot
 on:
   pull_request:
       branches: [ master ]
