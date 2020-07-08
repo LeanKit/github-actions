@@ -8,10 +8,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Create card in leankit
-        id: create
-        uses: ../../actions/createCardFromDependabot
+        uses: ./actions/createCardFromDependabotPR
         with:
-          api-token: "THIS IS NOT MY TOKEN"
-          leankit-board-url: "https://d03.leankit.io/board/10126868525"
-          review-lane: "10126868626"
-          ready-to-merge-lane: "10126868629"
+          api-token: THIS IS NOT MY TOKEN
+          leankit-board-url: https://d03.leankit.io/board/10126868525
+          review-lane: 10126868626
+          ready-to-merge-lane: 10126868629
+        id: create
+      - name: Output results
+        run: echo "Done- ${{ steps.create.outputs.random }}"
+
