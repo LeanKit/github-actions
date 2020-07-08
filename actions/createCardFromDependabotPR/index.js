@@ -48,7 +48,7 @@ const action = async ( {
 	}
 
 	// actions: reopened,
-	console.log( "payload", JSON.stringify( github.context.payload, null, 2 ) );
+	// console.log( "payload", JSON.stringify( github.context.payload, null, 2 ) );
 
 	let laneId = needsDevReview ? reviewLaneId : readyLaneId;
 

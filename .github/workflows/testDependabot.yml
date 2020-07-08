@@ -16,5 +16,5 @@ jobs:
           ready-to-merge-lane: 10126868629
         id: create
       - name: Output results
-        run: echo "Done- ${{ steps.create.outputs.random }}"
+        run: echo "Done- ${{ steps.create.outputs.result }}"
 
