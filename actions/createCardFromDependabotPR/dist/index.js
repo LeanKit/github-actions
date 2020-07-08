@@ -21004,9 +21004,10 @@ const action = async ( {
 	apiToken,
 	reviewLaneIdOrTitle,
 	readyToMergeLaneIdOrTitle,
-	needsDevReview
+	needsDevReview,
+	typeId
 } ) => {
-	const { number, title } = github.context.payload.pull_request;
+	const { title, html_url: url } = github.context.payload.pull_request;
 	const { getBoard, createCard } = leankitApiFactory( baseUrl, apiToken );
 
 	let reviewLaneId = reviewLaneIdOrTitle;
@@ -21036,8 +21037,13 @@ const action = async ( {
 	const id = await createCard( {
 		boardId,
 		title,
+		typeId,
 		laneId,
-		customId: "dependabot"
+		customId: "dependabot",
+		externalLink: {
+			url,
+			label: "PR"
+		}
 	} );
 
 	core.setOutput( "result", {
@@ -21083,7 +21089,8 @@ try{
 		apiToken,
 		reviewLaneIdOrTitle,
 		readyToMergeLaneIdOrTitle,
-		needsDevReview
+		needsDevReview,
+		typeId: core.getInput( "type-id" )
 	} );
 } catch ( ex ) {
 	console.log( "ex.message:", ex.message );

@@ -14,6 +14,7 @@ jobs:
           leankit-board-url: https://d03.leankit.io/board/10126868525
           review-lane: 10126868626
           ready-to-merge-lane: 10126868629
+          type-id: 10126868528
         id: create
       - name: Output results
         run: echo "Done- ${{ steps.create.outputs.result }}"
