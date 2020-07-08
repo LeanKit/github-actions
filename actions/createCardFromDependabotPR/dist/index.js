@@ -21064,7 +21064,7 @@ const { number, title, user: { login } } = github.context.payload.pull_request;
 console.log( `Checking PR#${ number }: '${ title }' from ${ login }` );
 
 const titleMatch = /^.+from (.*) to (.*)/.exec( title );
-if( !titleMatch || !login.includes( "johndmathis" ) ) {
+if( !titleMatch || !login.includes( "JohnDMathis" ) ) {
 	core.setOutput( "result", { message: `ignoring PR #${ number } '${ title }' from ${ login }` } );
 	return;
 }
