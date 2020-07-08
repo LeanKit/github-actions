@@ -53,8 +53,10 @@ const action = async ( {
 	let laneId = needsDevReview ? reviewLaneId : readyLaneId;
 
 	const id = await createCard( {
+		boardId,
 		title,
-		laneId
+		laneId,
+		customId: "dependabot"
 	} );
 
 	core.setOutput( "result", {
@@ -83,7 +85,7 @@ const { number, title, user: { login } } = github.context.payload.pull_request;
 console.log( `Checking PR#${ number }: '${ title }' from ${ login }` );
 
 const titleMatch = /^.+from (.*) to (.*)/.exec( title );
-if( !titleMatch || !login.includes( "dependabot" ) ) {
+if( !titleMatch || !login.includes( "JohnDMathis" ) ) {
 	core.setOutput( "result", { message: `ignoring PR #${ number } '${ title }' from ${ login }` } );
 	return;
 }
