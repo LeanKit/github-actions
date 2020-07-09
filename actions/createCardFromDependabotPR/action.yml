@@ -17,8 +17,10 @@ inputs:
     description: Id or title of your "ready-to-merge" lane
     required: true
 outputs:
-  result:
-    description: Object with result message or createdCardId
+  message:
+    description: Status message for errors or ignored pull requests
+  created-card-id:
+    description: id of created card (when successful)
 runs:
   using: "node12"
   main: "dist/index.js"

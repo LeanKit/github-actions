@@ -20981,16 +20981,20 @@ module.exports = require("child_process");
 "use strict";
 
 
-const core = __webpack_require__( 18 );
+const { getInput, setOutput, setFailed } = __webpack_require__( 18 );
 const github = __webpack_require__( 717 );
 const { isNaN } = __webpack_require__( 15 );
+const log = __webpack_require__( 724 );
+// const { validateParams } = require( "../../utils/helpers" );
 const leankitApiFactory = __webpack_require__( 265 );
+
+const DEPENDABOT_LOGIN = "JohnDMathis";
 
 function validateParams( params ) {
 	const values = [];
-	for (const param of params) {
-		const value = core.getInput( param );
-		if( !value ) {
+	for ( const param of params ) {
+		const value = getInput( param );
+		if ( !value ) {
 			throw new Error( `Expected '${ param }' action parameter` );
 		}
 		values.push( value );
@@ -20998,16 +21002,38 @@ function validateParams( params ) {
 	return values;
 }
 
-const action = async ( {
-	baseUrl,
-	boardId,
-	apiToken,
-	reviewLaneIdOrTitle,
-	readyToMergeLaneIdOrTitle,
-	needsDevReview,
-	typeId
-} ) => {
-	const { title, html_url: url } = github.context.payload.pull_request;
+( async () => {
+	const [
+		leankitBoardUrl,
+		apiToken,
+		reviewLaneIdOrTitle,
+		readyToMergeLaneIdOrTitle
+	] = validateParams( [ "leankit-board-url", "api-token", "review-lane", "ready-to-merge-lane" ] );
+
+	const match = /^(https:.+)\/board\/([0-9]+)/i.exec( leankitBoardUrl );
+	if ( !match ) {
+		throw new Error( "Expected a url for 'leankit-board-url' action parameter" );
+	}
+	const [ , baseUrl, boardId ] = match;
+
+	if ( !github.context.payload.pull_request ) {
+		throw new Error( "This action may be triggered by a pull_request only." );
+	}
+
+	const { number, title, html_url: url, user: { login } } = github.context.payload.pull_request;
+	log( `Checking PR#${ number }: '${ title }' from ${ login }` );
+
+	const titleMatch = /^.+from (.*) to (.*)/.exec( title );
+	if ( !titleMatch || !login.includes( DEPENDABOT_LOGIN ) ) {
+		setOutput( "message", `Ignoring PR #${ number } '${ title }' from ${ login }` );
+		return;
+	}
+	const [ , oldVersion, newVersion ] = titleMatch;
+	const [ oldMajorVersion ] = oldVersion.split( "." );
+	const [ newMajorVersion ] = newVersion.split( "." );
+	const needsDevReview = newMajorVersion !== oldMajorVersion;
+	const typeId = getInput( "type-id" );
+	
 	const { getBoard, createCard } = leankitApiFactory( baseUrl, apiToken );
 
 	let reviewLaneId = reviewLaneIdOrTitle;
@@ -21015,12 +21041,12 @@ const action = async ( {
 
 	if ( isNaN( Number( reviewLaneIdOrTitle ) ) || isNaN( Number( readyToMergeLaneIdOrTitle ) ) ) {
 		const board = await getBoard( boardId );
-		const reviewLane = board.lanes.find( l => l.title === reviewLaneIdOrTitle );
+		const reviewLane = board.lanes.find( l => l.id === reviewLaneIdOrTitle || l.title.toLowerCase() === reviewLaneIdOrTitle.toLowerCase() );
 		if ( !reviewLane ) {
 			throw new Error( `Expected to find a lane matching '${ reviewLaneIdOrTitle }' on board '${ boardId }` );
 		}
 
-		const readyLane = board.lanes.find( l => l.title === readyToMergeLaneIdOrTitle );
+		const readyLane = board.lanes.find( l => l.id === readyToMergeLaneIdOrTitle || l.title.toLowerCase() === readyToMergeLaneIdOrTitle.toLowerCase() );
 		if ( !readyLane ) {
 			throw new Error( `Expected to find a lane matching '${ readyToMergeLaneIdOrTitle }' on board '${ boardId }` );
 		}
@@ -21029,10 +21055,7 @@ const action = async ( {
 		readyLaneId = readyLane.id;
 	}
 
-	// actions: reopened,
-	// console.log( "payload", JSON.stringify( github.context.payload, null, 2 ) );
-
-	let laneId = needsDevReview ? reviewLaneId : readyLaneId;
+	const laneId = needsDevReview ? reviewLaneId : readyLaneId;
 
 	const id = await createCard( {
 		boardId,
@@ -21046,57 +21069,12 @@ const action = async ( {
 		}
 	} );
 
-	core.setOutput( "result", {
-		createdCardId: id
-	} );
-};
+	setOutput( "created-card-id", id );
 
-const [
-	leankitBoardUrl,
-	apiToken,
-	reviewLaneIdOrTitle,
-	readyToMergeLaneIdOrTitle
-] = validateParams( [ "leankit-board-url", "api-token", "review-lane", "ready-to-merge-lane" ] );
-
-const match = /^(https:.+)\/board\/([0-9]+)/i.exec( leankitBoardUrl );
-if( !match ) {
-	throw new Error( "Expected a url for 'leankit-board-url' action parameter" );
-}
-const [ , baseUrl, boardId ] = match;
-
-if( !github.context.payload.pull_request ) {
-	throw new Error( "This action may be triggered by a pull_request only." );
-}
-
-const { number, title, user: { login } } = github.context.payload.pull_request;
-console.log( `Checking PR#${ number }: '${ title }' from ${ login }` );
-
-const titleMatch = /^.+from (.*) to (.*)/.exec( title );
-if( !titleMatch || !login.includes( "JohnDMathis" ) ) {
-	core.setOutput( "result", { message: `ignoring PR #${ number } '${ title }' from ${ login }` } );
-	return;
-}
-
-const [ , oldVersion, newVersion ] = titleMatch;
-const [ oldMajorVersion ] = oldVersion.split( "." );
-const [ newMajorVersion ] = newVersion.split( "." );
-const needsDevReview = newMajorVersion !== oldMajorVersion;
-
-try{
-	action( {
-		baseUrl,
-		boardId,
-		apiToken,
-		reviewLaneIdOrTitle,
-		readyToMergeLaneIdOrTitle,
-		needsDevReview,
-		typeId: core.getInput( "type-id" )
-	} );
-} catch ( ex ) {
-	console.log( "ex.message:", ex.message );
-	throw ex;
-}
-
+} )().catch( ex => {
+	console.log( ex.stack );
+	setFailed( ex.message );
+} );
 
 
 /***/ }),
@@ -22294,44 +22272,35 @@ module.exports = opts => {
 /***/ 265:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
-const { post } = __webpack_require__( 38 );
+"use strict";
+
+
+const { get, post } = __webpack_require__( 38 );
 
 module.exports = ( _baseUrl, _apiToken ) => {
-const baseUrl = _baseUrl;
-const Authorization = `Bearer ${ _apiToken }`;
+	const baseUrl = _baseUrl;
+	const Authorization = `Bearer ${ _apiToken }`;
 
 
-    return {
-        createCard: async card => {
-            console.log( `create card '${ card.title }' in lane '${ card.laneId }` );
-            const { id } = await post( `${ baseUrl }/io/card`, {
-                json: card,
-                headers: {
-                    Authorization
-                }
-            } );
-            return id;
-        },
-        getBoard: id => {
+	return {
+		createCard: async card => {
+			console.log( `create card '${ card.title }' in lane '${ card.laneId }` );
+			const { id } = await post( `${ baseUrl }/io/card`, {
+				json: card,
+				headers: {
+					Authorization
+				}
+			} );
+			return id;
+		},
+		getBoard: id => {
             console.log( `get board id '${ id }'` );
-        }
-    }
-}
-
-
-// const { hostnameExists } = await post( `https://${ config.signup.hostnameLookupAuthorityHost }/io/hostname/lookup`, {
-//     json: { hostname: changes.hostname }
-// } ).json();
-
-// const options = {
-//     json: {
-//         title: "Welcome To LeanKit",
-//         templateId: welcomeBoardTemplateId,
-//         includeCards: true
-//     },
-//     headers: {
-//         Authorization: `JWT ${ getJwt( userId ) }`
-//     }
+            return get( `${ baseUrl }/io/board/${ id }`, {
+                headers: { Authorization }
+            } ).json();
+		}
+	};
+};
 
 
 /***/ }),
@@ -26777,6 +26746,14 @@ function sync (path, options) {
     }
   }
 }
+
+
+/***/ }),
+
+/***/ 724:
+/***/ (function(module) {
+
+module.exports = console.log;
 
 
 /***/ }),

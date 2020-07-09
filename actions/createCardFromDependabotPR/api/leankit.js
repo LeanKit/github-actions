@@ -1,6 +1,6 @@
 "use strict";
 
-const { post } = require( "got" );
+const { get, post } = require( "got" );
 
 module.exports = ( _baseUrl, _apiToken ) => {
 	const baseUrl = _baseUrl;
@@ -19,7 +19,10 @@ module.exports = ( _baseUrl, _apiToken ) => {
 			return id;
 		},
 		getBoard: id => {
-			console.log( `get board id '${ id }'` );
+            console.log( `get board id '${ id }'` );
+            return get( `${ baseUrl }/io/board/${ id }`, {
+                headers: { Authorization }
+            } ).json();
 		}
 	};
 };

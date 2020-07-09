@@ -120,14 +120,8 @@ describe.only( "createCardFromDependabotPR index", () => {
 				await action();
 			} );
 
-			it( "should log error message", () => { 
-				log.should.be.calledTwice
-					.and.calledWith( `Checking PR#200: 'Just some change' from ${ DEPENDABOT_LOGIN }` )
-					.and.calledWith( `Ignoring PR #200 'Just some change' from ${ DEPENDABOT_LOGIN }` );
-			} );
-			
 			it( "should set result message", () => {
-				setOutput.should.be.calledOnce.and.calledWith( "result", 
+				setOutput.should.be.calledOnce.and.calledWith( "message", 
 					`Ignoring PR #200 'Just some change' from ${ DEPENDABOT_LOGIN }` );
 			} );
 
@@ -150,15 +144,9 @@ describe.only( "createCardFromDependabotPR index", () => {
 				};
 				await action();
 			} );
-
-			it( "should log error message", () => { 
-				log.should.be.calledTwice
-					.and.calledWith( "Checking PR#200: 'Bump eslint from 4.19.1 to 4.19.4' from larrythecucumber" )
-					.and.calledWith( "Ignoring PR #200 'Bump eslint from 4.19.1 to 4.19.4' from larrythecucumber" );
-			} );
 			
 			it( "should set result message", () => {
-				setOutput.should.be.calledOnce.and.calledWith( "result",
+				setOutput.should.be.calledOnce.and.calledWith( "message",
 					"Ignoring PR #200 'Bump eslint from 4.19.1 to 4.19.4' from larrythecucumber" );
 			} );
 
@@ -194,10 +182,8 @@ describe.only( "createCardFromDependabotPR index", () => {
 				createCard.should.be.calledOnce.and.calledWith( cardDefinition );
 			} );
 
-			it( "should set result", () => {
-				setOutput.should.be.calledOnce.and.calledWith( "result", {
-					createdCardId: "32423423"
-				} );
+			it( "should set output 'created-card-id'", () => {
+				setOutput.should.be.calledOnce.and.calledWith( "created-card-id", "32423423" );
 			} );
 		} );
 
@@ -230,10 +216,8 @@ describe.only( "createCardFromDependabotPR index", () => {
 				 } );
 			} );
 
-			it( "should set result", () => {
-				setOutput.should.be.calledOnce.and.calledWith( "result", {
-					createdCardId: "32423423"
-				} );
+			it( "should set output 'created-card-id'", () => {
+				setOutput.should.be.calledOnce.and.calledWith( "created-card-id", "32423423" );
 			} );
 		} );
 	} );
@@ -293,10 +277,8 @@ describe.only( "createCardFromDependabotPR index", () => {
 				createCard.should.be.calledOnce.and.calledWith( cardDefinition );
 			} );
 
-			it( "should set result", () => {
-				setOutput.should.be.calledOnce.and.calledWith( "result", {
-					createdCardId: "32423423"
-				} );
+			it( "should set output 'created-card-id'", () => {
+				setOutput.should.be.calledOnce.and.calledWith( "created-card-id", "32423423" );
 			} );
 		} );
 
@@ -381,10 +363,8 @@ describe.only( "createCardFromDependabotPR index", () => {
 				createCard.should.be.calledOnce.and.calledWith( cardDefinition );
 			} );
 
-			it( "should set result", () => {
-				setOutput.should.be.calledOnce.and.calledWith( "result", {
-					createdCardId: "32423423"
-				} );
+			it( "should set output 'created-card-id'", () => {
+				setOutput.should.be.calledOnce.and.calledWith( "created-card-id", "32423423" );
 			} );
 		} );
 	} );
@@ -414,6 +394,69 @@ describe.only( "createCardFromDependabotPR index", () => {
 			} );
 			getInput.onCall( 2 ).returns( "INVALID" );
 			getInput.onCall( 3 ).returns( "789" );
+		} );
+		
+		describe( "with a minor version bump", () => {
+			beforeEach( async () => {
+				github.context.payload = {
+					pull_request: {
+						number: "250",
+						title: "Bump eslint from 4.19.1 to 4.19.4",
+						user: {
+							login: DEPENDABOT_LOGIN
+						},
+						html_url: "PULL_REQUEST_URL"
+					}
+				};
+				createCard.returns( "32423423" );
+				await action();
+			} );
+
+			it( "should get leankit api", () => {
+				apiFactory.should.be.calledOnce.and.calledWith( "https://acme.leankit.com", "API_TOKEN" );
+			} );
+
+			it( "should get the board", () => { 
+				getBoard.should.be.calledOnce.and.calledWith( "1234" );
+			} );
+			
+			it( "should set failed", () => {
+				setFailed.should.be.calledOnce.and.calledWith( "Expected to find a lane matching 'INVALID' on board '1234");
+			} );
+
+			it( "should not attempt to create a card", () => { 
+				createCard.should.not.be.called();
+			} );
+			
+		} );
+
+	} );
+
+	describe( "when 'ready to merge' lane is invalid", () => {
+		beforeEach( () => { 
+			init();
+			getBoard.resolves({
+				lanes: [
+					{
+						id: "1",
+						title: "one"
+					},
+					{
+						id: "456",
+						title: "READY TO REVIEW"
+					},
+					{
+						id: "789",
+						title: "Ready to Merge"
+					},
+					{
+						id: "987",
+						title: "Ready to Merge"
+					}
+				]
+			} );
+			getInput.onCall( 2 ).returns( "456" );
+			getInput.onCall( 3 ).returns( "INVALID" );
 		} );
 		
 		describe( "with a minor version bump", () => {
