@@ -60,6 +60,10 @@ function validateParams( params ) {
 
 	if ( isNaN( Number( reviewLaneIdOrTitle ) ) || isNaN( Number( readyToMergeLaneIdOrTitle ) ) ) {
 		const board = await getBoard( boardId );
+		console.log( "board.statusCode:", board.statusCode );
+		for (const lane of board.lanes) {
+			console.log( `lane id '${ lane.id }': ${ lane.title }` );
+		}
 		const reviewLane = board.lanes.find( l => l.id === reviewLaneIdOrTitle || l.title.toLowerCase() === reviewLaneIdOrTitle.toLowerCase() );
 		if ( !reviewLane ) {
 			throw new Error( `Expected to find a lane matching '${ reviewLaneIdOrTitle }' on board '${ boardId }` );
