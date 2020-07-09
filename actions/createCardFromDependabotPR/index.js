@@ -60,16 +60,13 @@ function validateParams( params ) {
 
 	if ( isNaN( Number( reviewLaneIdOrTitle ) ) || isNaN( Number( readyToMergeLaneIdOrTitle ) ) ) {
 		const board = await getBoard( boardId );
-		console.log( "board.statusCode:", board.statusCode );
-		for (const lane of board.lanes) {
-			console.log( `lane id '${ lane.id }': ${ lane.title }` );
-		}
-		const reviewLane = board.lanes.find( l => l.id === reviewLaneIdOrTitle || l.title.toLowerCase() === reviewLaneIdOrTitle.toLowerCase() );
+
+		const reviewLane = board.lanes.find( l => l.id === reviewLaneIdOrTitle || l.name.toLowerCase() === reviewLaneIdOrTitle.toLowerCase() );
 		if ( !reviewLane ) {
 			throw new Error( `Expected to find a lane matching '${ reviewLaneIdOrTitle }' on board '${ boardId }` );
 		}
 
-		const readyLane = board.lanes.find( l => l.id === readyToMergeLaneIdOrTitle || l.title.toLowerCase() === readyToMergeLaneIdOrTitle.toLowerCase() );
+		const readyLane = board.lanes.find( l => l.id === readyToMergeLaneIdOrTitle || l.name.toLowerCase() === readyToMergeLaneIdOrTitle.toLowerCase() );
 		if ( !readyLane ) {
 			throw new Error( `Expected to find a lane matching '${ readyToMergeLaneIdOrTitle }' on board '${ boardId }` );
 		}
@@ -95,6 +92,5 @@ function validateParams( params ) {
 	setOutput( "created-card-id", id );
 
 } )().catch( ex => {
-	console.log( ex.stack );
 	setFailed( ex.message );
 } );

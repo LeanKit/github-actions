@@ -229,19 +229,19 @@ describe.only( "createCardFromDependabotPR index", () => {
 				lanes: [
 					{
 						id: "1",
-						title: "one"
+						name: "one"
 					},
 					{
 						id: "456",
-						title: "READY TO REVIEW"
+						name: "READY TO REVIEW"
 					},
 					{
 						id: "789",
-						title: "Ready to Merge"
+						name: "Ready to Merge"
 					},
 					{
 						id: "987",
-						title: "Ready to Merge"
+						name: "Ready to Merge"
 					}
 				]
 			} );
@@ -315,19 +315,19 @@ describe.only( "createCardFromDependabotPR index", () => {
 				lanes: [
 					{
 						id: "1",
-						title: "one"
+						name: "one"
 					},
 					{
 						id: "456",
-						title: "READY TO REVIEW"
+						name: "READY TO REVIEW"
 					},
 					{
 						id: "789",
-						title: "Ready to Merge"
+						name: "Ready to Merge"
 					},
 					{
 						id: "987",
-						title: "Ready to Merge"
+						name: "Ready to Merge"
 					}
 				]
 			} );
@@ -376,19 +376,19 @@ describe.only( "createCardFromDependabotPR index", () => {
 				lanes: [
 					{
 						id: "1",
-						title: "one"
+						name: "one"
 					},
 					{
 						id: "456",
-						title: "READY TO REVIEW"
+						name: "READY TO REVIEW"
 					},
 					{
 						id: "789",
-						title: "Ready to Merge"
+						name: "Ready to Merge"
 					},
 					{
 						id: "987",
-						title: "Ready to Merge"
+						name: "Ready to Merge"
 					}
 				]
 			} );
@@ -439,19 +439,19 @@ describe.only( "createCardFromDependabotPR index", () => {
 				lanes: [
 					{
 						id: "1",
-						title: "one"
+						name: "one"
 					},
 					{
 						id: "456",
-						title: "READY TO REVIEW"
+						name: "READY TO REVIEW"
 					},
 					{
 						id: "789",
-						title: "Ready to Merge"
+						name: "Ready to Merge"
 					},
 					{
 						id: "987",
-						title: "Ready to Merge"
+						name: "Ready to Merge"
 					}
 				]
 			} );
