@@ -20984,11 +20984,9 @@ module.exports = require("child_process");
 const { getInput, setOutput, setFailed } = __webpack_require__( 18 );
 const github = __webpack_require__( 717 );
 const { isNaN } = __webpack_require__( 15 );
-const log = __webpack_require__( 724 );
-// const { validateParams } = require( "../../utils/helpers" );
 const leankitApiFactory = __webpack_require__( 265 );
 
-const DEPENDABOT_LOGIN = "JohnDMathis";
+const DEPENDABOT_LOGIN = "dependabot";
 
 function validateParams( params ) {
 	const values = [];
@@ -21002,7 +21000,7 @@ function validateParams( params ) {
 	return values;
 }
 
-( async () => {
+( async () => { // eslint-disable-line max-statements
 	const [
 		leankitBoardUrl,
 		apiToken,
@@ -21021,7 +21019,6 @@ function validateParams( params ) {
 	}
 
 	const { number, title, html_url: url, user: { login } } = github.context.payload.pull_request;
-	log( `Checking PR#${ number }: '${ title }' from ${ login }` );
 
 	const titleMatch = /^.+from (.*) to (.*)/.exec( title );
 	if ( !titleMatch || !login.includes( DEPENDABOT_LOGIN ) ) {
@@ -21033,7 +21030,7 @@ function validateParams( params ) {
 	const [ newMajorVersion ] = newVersion.split( "." );
 	const needsDevReview = newMajorVersion !== oldMajorVersion;
 	const typeId = getInput( "type-id" );
-	
+
 	const { getBoard, createCard } = leankitApiFactory( baseUrl, apiToken );
 
 	let reviewLaneId = reviewLaneIdOrTitle;
@@ -21041,12 +21038,13 @@ function validateParams( params ) {
 
 	if ( isNaN( Number( reviewLaneIdOrTitle ) ) || isNaN( Number( readyToMergeLaneIdOrTitle ) ) ) {
 		const board = await getBoard( boardId );
-		const reviewLane = board.lanes.find( l => l.id === reviewLaneIdOrTitle || l.title.toLowerCase() === reviewLaneIdOrTitle.toLowerCase() );
+
+		const reviewLane = board.lanes.find( l => l.id === reviewLaneIdOrTitle || l.name.toLowerCase() === reviewLaneIdOrTitle.toLowerCase() );
 		if ( !reviewLane ) {
 			throw new Error( `Expected to find a lane matching '${ reviewLaneIdOrTitle }' on board '${ boardId }` );
 		}
 
-		const readyLane = board.lanes.find( l => l.id === readyToMergeLaneIdOrTitle || l.title.toLowerCase() === readyToMergeLaneIdOrTitle.toLowerCase() );
+		const readyLane = board.lanes.find( l => l.id === readyToMergeLaneIdOrTitle || l.name.toLowerCase() === readyToMergeLaneIdOrTitle.toLowerCase() );
 		if ( !readyLane ) {
 			throw new Error( `Expected to find a lane matching '${ readyToMergeLaneIdOrTitle }' on board '${ boardId }` );
 		}
@@ -21070,9 +21068,7 @@ function validateParams( params ) {
 	} );
 
 	setOutput( "created-card-id", id );
-
 } )().catch( ex => {
-	console.log( ex.stack );
 	setFailed( ex.message );
 } );
 
@@ -22284,7 +22280,6 @@ module.exports = ( _baseUrl, _apiToken ) => {
 
 	return {
 		createCard: async card => {
-			console.log( `create card '${ card.title }' in lane '${ card.laneId }` );
 			const { id } = await post( `${ baseUrl }/io/card`, {
 				json: card,
 				headers: {
@@ -22294,10 +22289,9 @@ module.exports = ( _baseUrl, _apiToken ) => {
 			return id;
 		},
 		getBoard: id => {
-            console.log( `get board id '${ id }'` );
-            return get( `${ baseUrl }/io/board/${ id }`, {
-                headers: { Authorization }
-            } ).json();
+			return get( `${ baseUrl }/io/board/${ id }`, {
+				headers: { Authorization }
+			} ).json();
 		}
 	};
 };
@@ -26746,14 +26740,6 @@ function sync (path, options) {
     }
   }
 }
-
-
-/***/ }),
-
-/***/ 724:
-/***/ (function(module) {
-
-module.exports = console.log;
 
 
 /***/ }),

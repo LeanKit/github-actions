@@ -9,7 +9,6 @@ module.exports = ( _baseUrl, _apiToken ) => {
 
 	return {
 		createCard: async card => {
-			console.log( `create card '${ card.title }' in lane '${ card.laneId }` );
 			const { id } = await post( `${ baseUrl }/io/card`, {
 				json: card,
 				headers: {
@@ -19,10 +18,9 @@ module.exports = ( _baseUrl, _apiToken ) => {
 			return id;
 		},
 		getBoard: id => {
-            console.log( `get board id '${ id }'` );
-            return get( `${ baseUrl }/io/board/${ id }`, {
-                headers: { Authorization }
-            } ).json();
+			return get( `${ baseUrl }/io/board/${ id }`, {
+				headers: { Authorization }
+			} ).json();
 		}
 	};
 };
