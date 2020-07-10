@@ -10,7 +10,7 @@ jobs:
       - name: Create card in leankit
         uses: ./actions/createCardFromDependabotPR
         with:
-          api-token: 030caecb9735a4479ab8be7b992b23a0368f75b9676cd29d7e32779ed8fab9e74fbd2d13f187b1d7c06ca658f5af867828f9c2fc744ffd02e7b5947c80af45f1
+          api-token: ${{ secrets.D03_DEPENDABOT_API_TOKEN }}
           leankit-board-url: https://d03.leankit.io/board/10126868525
           review-lane: 10126868626
           ready-to-merge-lane: 10126868629
