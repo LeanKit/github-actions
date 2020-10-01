@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/Leankit/github-actions#readme",
   "dependencies": {
-    "@actions/core": "^1.2.4",
+    "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
     "got": "^11.5.0",
     "http-status": "^1.4.2",
