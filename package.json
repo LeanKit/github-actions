@@ -26,7 +26,7 @@
   "dependencies": {
     "@actions/core": "^1.2.4",
     "@actions/github": "^4.0.0",
-    "got": "^11.5.0",
+    "got": "^11.8.5",
     "http-status": "^1.4.2",
     "require-uncached": "^2.0.0"
   },
