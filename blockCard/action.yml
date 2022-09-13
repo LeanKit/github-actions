@@ -1,0 +1,22 @@
+name: "Block or unblock a card"
+description: "Block or unblock a card"
+inputs:
+  apiToken:
+    description: Api token with read access to your LeanKit board
+    required: true
+  cardId:
+    description: Id of the card
+    required: true
+  host:
+    description: LeanKit Url (https://mycompany.leankit.com)
+    required: true
+  blockReason:
+    description: Block reason
+    required: false
+    default: Blocked by automation
+  isBlocked:
+    description: Whether to block or unblock the card
+    required: false
+runs:
+  using: "node16"
+  main: "dist/index.js"

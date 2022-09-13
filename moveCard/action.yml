@@ -1,0 +1,22 @@
+name: "Move a card"
+description: "Move a card"
+inputs:
+  apiToken:
+    description: Api token for your LeanKit board
+    required: true
+  cardId:
+    description: Id of the card
+    required: true
+  host:
+    description: LeanKit Url (https://mycompany.leankit.com)
+    required: true
+  laneId:
+    description: Lane to move the card to
+    required: true
+  wipOverrideComment:
+    description: WIP Override reason to provide, in case lane is at WIP
+    required: false
+    default: Moved by automation
+runs:
+  using: "node16"
+  main: "dist/index.js"

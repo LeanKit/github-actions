@@ -1,0 +1,29 @@
+name: "Create Card"
+description: "Create a LeanKit card"
+inputs:
+  api-token:
+    description: Api token with write access to your LeanKit board
+    required: true
+  host:
+    description: LeanKit Url (https://mycompany.leankit.com)
+    required: true
+  board-id:
+    description: Board Id for the new card
+    required: true
+  title:
+    description: Title of the new card
+    required: true
+  lane-id:
+    description: Optionally specify lane id for the new card. Default drop lane will be used when not set.
+    required: false
+  type-id:
+    description: Optionally specify a card type id to use. Default card type will be used when not set.
+    required: false
+outputs:
+  message:
+    description: Status message for errors or ignored pull requests
+  created-card-id:
+    description: id of created card (when successful)
+runs:
+  using: "node16"
+  main: "dist/index.js"
