@@ -1,18 +1,18 @@
 {
   "name": "github-actions",
   "version": "0.0.1",
-  "description": "* _Required_ Minium value for random number. Default 0. #### \"max-value\" * _Required_ Maximum value for random number. Default 100. ### Outputs #### \"random\" The random number you requested. ### Example Usage ``` uses: leankit/github-actions/randomNumber@v1 with:   min-value: 10   max-value: 20 ```",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "lint": "eslint --fix ./",
     "pretest": "npm run lint",
-    "test:only": "NODE_ENV=test mocha --opts 'spec/mocha.opts' -R spec 'actions/**/*.spec.js'",
-    "test:watch": "nodemon --exec \"NODE_ENV=test mocha --opts 'spec/mocha.opts' -R spec 'actions/**/*.spec.js' || true\" -e js,json,sql",
+    "test:only": "NODE_ENV=test mocha --exit -r spec/helpers --timeout 50000 -R spec --exclude './node_modules/**' './**/*.spec.js'",
+    "test:watch": "nodemon --exec \"NODE_ENV=test mocha -r spec/helpers --timeout 50000 -R spec --exclude './node_modules/**' './**/*.spec.js' || true\" -e js,json,sql",
     "test": "npm run cover",
     "cover": "nyc -r text-summary -r html -- npm run test:only",
     "cover:ci": "nyc -r text-summary -r html -- npm run test:ci",
     "cover:show": "open \"file://$PWD/coverage/index.html\"",
-    "build": "for i in blockCard moveCard createCard addComment; do ncc build ./${i%%} -m -o ./${i%%}/dist; done"
+    "build": "for i in blockCard moveCard createCard addComment validateCustomFields; do ncc build ./${i%%} -m -o ./${i%%}/dist; done"
   },
   "repository": {
     "type": "git",
@@ -50,7 +50,7 @@
     "exclude": [
       "coverage",
       "spec",
-      "actions/**/dist/index.js",
+      "**/dist/index.js",
       ".eslintrc.js"
     ],
     "sourceMap": false,

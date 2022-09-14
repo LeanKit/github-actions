@@ -1,53 +1,36 @@
 "use strict";
 
-const { getInput, setOutput, setFailed } = require( "@actions/core" );
-const leankitApiFactory = require( "../leankit" );
-
-function validateParams( requiredParams = [], optionalParams = [] ) {
-	const values = {
-		required: [],
-		optional: []
-	};
-	for ( const param of requiredParams ) {
-		const value = getInput( param );
-		if ( !value ) {
-			throw new Error( `Expected '${ param }' action parameter` );
-		}
-		values.required.push( value );
-	}
-
-	for ( const param of optionalParams ) {
-		const value = getInput( param );
-		values.optional.push( value || null );
-	}
-
-	return values;
-}
+const { setOutput, warning } = require( "@actions/core" );
+const leankitApiFactory = require( "../leankit/api" );
+const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit/helpers" );
 
 ( async () => {
-	const {
-		required: [
-			host,
-			apiToken,
-			boardId,
-			title
-		],
-		optional: [
-			laneId,
-			typeId
-		]
-	} = validateParams( [ "host", "api-token", "board-id", "title" ], [ "lane-id", "type-id" ] );
-
-	const { createCard } = leankitApiFactory( host, apiToken );
-
-	const id = await createCard( {
+	const [
+		host,
+		apiToken,
 		boardId,
 		title,
 		laneId,
 		typeId
-	} );
+	] = getInputParams( { required: [ "host", "apiToken", "boardId", "title" ], optional: [ "laneId", "typeId" ] } );
 
-	setOutput( "created-card-id", id );
+	validateLeankitUrl( "host", host );
+
+	const { createCard } = leankitApiFactory( host, apiToken );
+
+	const payload = { boardId, title };
+	// if ( laneId ) {
+	// 	payload.laneId = laneId;
+	// }
+	// // if ( typeId ) {
+	// payload.typeId = typeId;
+	// // }
+
+	const id = await createCard( payload );
+
+	setOutput( "createdCardId", id );
 } )().catch( ex => {
-	setFailed( ex.message );
+	// warning( "createCard exception:", ex );
+	// console.log( "ex:", ex );
+	reportError( "createCard", ex );
 } );

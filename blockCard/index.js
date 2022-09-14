@@ -1,32 +1,26 @@
 "use strict";
 
-const { getInput, setFailed } = require("@actions/core");
-const leankitApiFactory = require("../leankit");
+const leankitApiFactory = require( "../leankit/api" );
+const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit/helpers" );
 
-function validateParams(params) {
-	const values = [];
-	for (const param of params) {
-		const value = getInput(param);
-		if (!value) {
-			throw new Error(`Expected '${param}' action parameter`);
-		}
-		values.push(value);
-	}
-	return values;
-}
-
-(async () => {
+( async () => {
 	const [
+		host,
 		apiToken,
 		cardId,
-		host,
+		isBlocked,
 		blockReason
-	] = validateParams(["apiToken", "cardId", "host", "blockReason"]);
-	const isBlocked = getInput("isBlocked") !== false;
+	] = getInputParams( {
+		required: [ "host", "apiToken", "cardId", "isBlocked" ],
+		optional: [ "blockReason" ],
+		asBoolean: [ "isBlocked" ]
+	} );
 
-	const { blockCard } = leankitApiFactory(host, apiToken);
+	validateLeankitUrl( "host", host );
 
-	await blockCard(cardId, isBlocked, blockReason);
-})().catch(ex => {
-	setFailed(ex.message);
-});
+	const { blockCard } = leankitApiFactory( host, apiToken );
+
+	await blockCard( cardId, isBlocked, blockReason );
+} )().catch( ex => {
+	reportError( "blockCard", ex.message );
+} );

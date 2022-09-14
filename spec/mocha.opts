@@ -1,3 +1,0 @@
---exit
--r spec/helpers
---timeout 50000
