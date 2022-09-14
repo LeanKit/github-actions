@@ -1,14 +1,14 @@
 name: "Add a comment to a card"
 description: "Add a comment to a card"
 inputs:
+  host:
+    description: LeanKit Url (https://mycompany.leankit.com)
+    required: true
   apiToken:
     description: Api token with read access to your LeanKit board
     required: true
   cardId:
     description: Id of the card
-    required: true
-  host:
-    description: LeanKit Url (https://mycompany.leankit.com)
     required: true
   comment:
     description: Comment text

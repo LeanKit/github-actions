@@ -1,0 +1,25 @@
+name: "Validate Card Custom Fields"
+description: "Validate the custom fields on a card"
+inputs:
+  host:
+    description: LeanKit Url (https://mycompany.leankit.com)
+    required: true
+  apiToken:
+    description: Api token with read access to your LeanKit board
+    required: true
+  cardId:
+    description: Id of the card
+    required: true
+  requiredCustomFields:
+    description: The labels or ids of the custom fields to validate
+    required: true
+  customFields:
+    description: Custom fields values, if available already
+outputs:
+  customFieldsByLabel:
+    description: Custom field values indexed by label
+  customFieldsById:
+    description: Custom field values indexed by field id
+runs:
+  using: "node16"
+  main: "dist/index.js"

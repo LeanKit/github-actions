@@ -1,14 +1,14 @@
 name: "Move a card"
 description: "Move a card"
 inputs:
+  host:
+    description: LeanKit Url (https://mycompany.leankit.com)
+    required: true
   apiToken:
     description: Api token for your LeanKit board
     required: true
   cardId:
     description: Id of the card
-    required: true
-  host:
-    description: LeanKit Url (https://mycompany.leankit.com)
     required: true
   laneId:
     description: Lane to move the card to

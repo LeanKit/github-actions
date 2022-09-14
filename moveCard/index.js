@@ -1,32 +1,22 @@
 "use strict";
 
-const { getInput, setFailed } = require( "@actions/core" );
-const leankitApiFactory = require( "../leankit" );
-
-function validateParams( params ) {
-	const values = [];
-	for ( const param of params ) {
-		const value = getInput( param );
-		if ( !value ) {
-			throw new Error( `Expected '${ param }' action parameter` );
-		}
-		values.push( value );
-	}
-	return values;
-}
+const leankitApiFactory = require( "../leankit/api" );
+const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit/helpers" );
 
 ( async () => {
 	const [
+		host,
 		apiToken,
 		cardId,
-		host,
 		laneId,
 		wipOverrideComment
-	] = validateParams( [ "apiToken", "cardId", "host", "laneId", "wipOverrideComment" ] );
+	] = getInputParams( { required: [ "host", "apiToken", "cardId", "laneId" ], optional: [ "wipOverrideComment" ] } );
+
+	validateLeankitUrl( "host", host );
 
 	const { moveCard } = leankitApiFactory( host, apiToken );
 
 	await moveCard( cardId, laneId, wipOverrideComment );
 } )().catch( ex => {
-	setFailed( ex.message );
+	reportError( "moveCard", ex.message );
 } );

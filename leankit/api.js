@@ -2,8 +2,9 @@
 
 const got = require( "got" );
 
-module.exports = ( baseUrl, apiToken ) => {
+module.exports = ( _baseUrl, apiToken ) => {
 	const Authorization = `Bearer ${ apiToken }`;
+	const baseUrl = _baseUrl.endsWith( "/" ) ? _baseUrl.substr( 0, _baseUrl.lastIndexOf( "/" ) ) : _baseUrl;
 
 	const api = {
 		getCard: cardId => {
@@ -49,7 +50,7 @@ module.exports = ( baseUrl, apiToken ) => {
 				method: "POST",
 				json: card,
 				headers: { Authorization }
-			} );
+			} ).json();
 			return id;
 		},
 		async verifyCardPosition( cardId, laneId ) {
