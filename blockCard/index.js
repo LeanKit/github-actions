@@ -22,5 +22,5 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 
 	await blockCard( cardId, isBlocked, blockReason );
 } )().catch( ex => {
-	reportError( "blockCard", ex.message );
+	reportError( "blockCard", ex );
 } );

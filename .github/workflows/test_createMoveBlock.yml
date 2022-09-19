@@ -1,0 +1,38 @@
+name: create / move test
+on:
+  repository_dispatch:
+jobs:
+  createAndMoveTest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: create card
+        id: createCard
+        uses: ./createCard
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          boardId: ${{ github.event.client_payload.createCard.boardId }}
+          title: ${{ github.event.client_payload.createCard.title }}
+          laneId: ${{ github.event.client_payload.createCard.laneId }}
+          typeId: ${{ github.event.client_payload.createCard.typeId }}
+
+      - name: move card
+        id: moveCard
+        uses: ./moveCard
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ steps.createCard.outputs.createdCardId }}
+          laneId: ${{ github.event.client_payload.moveCard.laneId }}
+
+      - name: block card
+        id: blockCard
+        uses: ./blockCard
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ steps.createCard.outputs.createdCardId }}
+          isBlocked: ${{ github.event.client_payload.blockCard.isBlocked }}
+          blockReason: ${{ github.event.client_payload.blockCard.blockReason }}
+

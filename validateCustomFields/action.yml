@@ -16,6 +16,8 @@ inputs:
   customFields:
     description: Custom fields values, if available already
 outputs:
+  error:
+    description: Status message for errors
   customFieldsByLabel:
     description: Custom field values indexed by label
   customFieldsById:

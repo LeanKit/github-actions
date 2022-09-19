@@ -1,6 +1,5 @@
 "use strict";
-
-const { setOutput, warning } = require( "@actions/core" );
+const { setOutput } = require( "@actions/core" );
 const leankitApiFactory = require( "../leankit/api" );
 const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit/helpers" );
 
@@ -18,12 +17,18 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 
 	const { createCard } = leankitApiFactory( host, apiToken );
 
-	const payload = { boardId, title, laneId, typeId };
+	const payload = { boardId, title };
+
+	if ( laneId ) {
+		payload.laneId = laneId;
+	}
+	if ( typeId ) {
+		payload.typeId = typeId;
+	}
 
 	const id = await createCard( payload );
 
-	setOutput( "createdCardId", "21" );
+	setOutput( "createdCardId", id );
 } )().catch( ex => {
-	warning( "createCard exception:", ex );
-	reportError( "createCard", ex.message );
+	reportError( "createCard", ex );
 } );

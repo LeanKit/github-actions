@@ -17,11 +17,11 @@ module.exports = {
 
 		return values;
 	},
-	reportError( actionName, message ) {
-		const msg = `${ actionName } error: ${ message }`;
+	reportError( actionName, error ) {
+		const msg = `${ actionName }; ${ error.message }`;
 		setOutput( "error", msg );
 		exportVariable( "LK_ERROR_MESSAGE", msg );
-		setFailed( msg );
+		setFailed( error );
 	},
 	validateLeankitUrl( name, value ) {
 		const valid = /^https:\/\/.+\.(leankit\.com|leankit\.io|localkanban\.com)\/?$/i.test( value );

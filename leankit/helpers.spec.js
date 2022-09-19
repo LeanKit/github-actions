@@ -120,21 +120,23 @@ describe( "leankit/helpers", () => {
 		} );
 	} );
 	describe( "reportError", () => {
+		const error = new Error( "UH OH" );
+		console.log( "error.message:", error.message );
 
 		beforeEach( () => {
-			helpers.reportError( "someAction", "ERROR_MESSAGE" );
+			helpers.reportError( "someAction", error );
 		} );
 
 		it( "should set output for 'error'", () => {
-			setOutput.should.be.calledOnce.and.calledWith( "error", "someAction error: ERROR_MESSAGE" );
+			setOutput.should.be.calledOnce.and.calledWith( "error", "someAction; UH OH" );
 		} );
 
 		it( "should export env variable 'LK_ERROR_MESSAGE'", () => {
-			exportVariable.should.be.calledOnce.and.calledWith( "LK_ERROR_MESSAGE", "someAction error: ERROR_MESSAGE" );
+			exportVariable.should.be.calledOnce.and.calledWith( "LK_ERROR_MESSAGE", "someAction; UH OH" );
 		} );
 
 		it( "should set failed with error", () => {
-			setFailed.should.be.calledOnce.and.calledWith( "someAction error: ERROR_MESSAGE" );
+			setFailed.should.be.calledOnce.and.calledWith( error );
 		} );
 	} );
 

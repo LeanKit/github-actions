@@ -17,6 +17,9 @@ inputs:
     description: WIP Override reason to provide, in case lane is at WIP
     required: false
     default: Moved by automation
+outputs:
+  error:
+    description: Status message for errors
 runs:
   using: "node16"
   main: "dist/index.js"

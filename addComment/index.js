@@ -17,5 +17,5 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 
 	await addComment( cardId, comment );
 } )().catch( ex => {
-	reportError( "addComment", ex.message );
+	reportError( "addComment", ex );
 } );

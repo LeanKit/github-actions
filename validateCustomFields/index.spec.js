@@ -50,10 +50,11 @@ describe( "validateCustomFields", () => {
 	}
 
 	describe( "validation", () => {
+		const error = new Error( "VALIDATION ERROR" );
 		describe( "when validation fails", () => {
 			beforeEach( async () => {
 				init();
-				getInputParams.throws( new Error( "Input required and not supplied: SOME PARAM" ) );
+				getInputParams.throws( error );
 				await action();
 			} );
 
@@ -72,7 +73,7 @@ describe( "validateCustomFields", () => {
 			} );
 
 			it( "should report error", async () => {
-				reportError.should.be.calledOnce.and.calledWith( "validateCustomFields", "Input required and not supplied: SOME PARAM" );
+				reportError.should.be.calledOnce.and.calledWith( "validateCustomFields", error );
 			} );
 		} );
 
@@ -80,7 +81,7 @@ describe( "validateCustomFields", () => {
 			beforeEach( async () => {
 				init();
 				getInputParams.returns( [ "INVALID_HOST" ] );
-				validateLeankitUrl.throws( new Error( "Expected a leankit url for 'host' action parameter" ))
+				validateLeankitUrl.throws( error );
 				await action();
 			} );
 
@@ -89,7 +90,7 @@ describe( "validateCustomFields", () => {
 			} );
 
 			it( "should report error", () => {
-				reportError.should.be.calledOnce.and.calledWith( "validateCustomFields", "Expected a leankit url for 'host' action parameter" );
+				reportError.should.be.calledOnce.and.calledWith( "validateCustomFields", error );
 			} );
 		} );
 	} );
@@ -105,6 +106,7 @@ describe( "validateCustomFields", () => {
 		} );
 
 		describe( "with provided custom fields and missing fields", () => {
+			const validationError = new Error( "Card is missing required custom fields: My Field Label, 12345, anotherLabel" );
 			beforeEach( async () => {
 				init();
 				await action();
@@ -127,7 +129,8 @@ describe( "validateCustomFields", () => {
 			} );
 
 			it( "should report missing fields", () => {
-				reportError.should.be.calledOnce.and.calledWith( "validateCustomFields", "Card is missing required custom fields: My Field Label, 12345, anotherLabel" );
+				reportError.should.be.calledOnce.and.calledWith( "validateCustomFields" );
+				reportError.args[ 0 ][ 1 ].message.should.equal( "Card is missing required custom fields: My Field Label, 12345, anotherLabel")
 			} );
 		} );
 

@@ -17,6 +17,9 @@ inputs:
     description: Block reason
     required: false
     default: Blocked by automation
+outputs:
+  error:
+    description: Status message for errors
 runs:
   using: "node16"
   main: "dist/index.js"

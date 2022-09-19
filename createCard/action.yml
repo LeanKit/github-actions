@@ -20,8 +20,8 @@ inputs:
     description: Optionally specify a card type id to use. Default card type will be used when not set.
     required: false
 outputs:
-  message:
-    description: Status message for errors or ignored pull requests
+  error:
+    description: Status message for errors
   createdCardId:
     description: id of created card (when successful)
 runs:

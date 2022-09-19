@@ -1,0 +1,26 @@
+name: validate custom fields
+on:
+  repository_dispatch:
+jobs:
+  validateCustomFields:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: validate
+        id: validate
+        uses: ./validateCustomFields
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.validateCustomFields.cardId }}
+          requiredCustomFields: ${{ github.event.client_payload.validateCustomFields.requiredCustomFields }}
+
+      - name: comment
+        id: comment
+        uses: ./addComment
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.addComment.cardId }}
+          comment: ${{ github.event.client_payload.addComment.comment }}

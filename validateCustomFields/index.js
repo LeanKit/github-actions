@@ -47,6 +47,7 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 
 	const requiredItems = requiredCustomFields.split( /\s*,\s*/ ).map( f => f.trim() );
 	const missingCustomFields = [];
+
 	for ( const requiredItem of requiredItems ) {
 		if ( !( requiredItem.toLowerCase() in customFieldsByLabel || requiredItem in customFieldsById ) ) {
 			missingCustomFields.push( requiredItem );
@@ -57,5 +58,5 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 		throw new Error( `Card is missing required custom fields: ${ missingCustomFields.join( ", " ) }` );
 	}
 } )().catch( ex => {
-	reportError( "validateCustomFields", ex.message );
+	reportError( "validateCustomFields", ex );
 } );

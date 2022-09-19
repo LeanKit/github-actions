@@ -13,6 +13,9 @@ inputs:
   comment:
     description: Comment text
     required: true
+outputs:
+  error:
+    description: Status message for errors
 runs:
   using: "node16"
   main: "dist/index.js"
