@@ -1,0 +1,21 @@
+name: "Add a comment to a card"
+description: "Add a comment to a card"
+inputs:
+  host:
+    description: LeanKit Url (https://mycompany.leankit.com)
+    required: true
+  apiToken:
+    description: Api token with read access to your LeanKit board
+    required: true
+  cardId:
+    description: Id of the card
+    required: true
+  comment:
+    description: Comment text
+    required: true
+outputs:
+  error:
+    description: Status message for errors
+runs:
+  using: "node16"
+  main: "dist/index.js"
