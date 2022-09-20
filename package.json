@@ -29,9 +29,7 @@
   "dependencies": {
     "@actions/core": "^1.2.4",
     "@actions/github": "^4.0.0",
-    "got": "^11.5.0",
-    "http-status": "^1.4.2",
-    "require-uncached": "^2.0.0"
+    "got": "^11.5.0"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.34.0",
@@ -40,7 +38,6 @@
     "dirty-chai": "^2.0.1",
     "eslint": "^5.16.0",
     "eslint-config-leankit": "^5.1.0",
-    "hippie": "^0.5.1",
     "mocha": "^10.0.0",
     "nodemon": "^2.0.19",
     "nyc": "^15.0.0",
