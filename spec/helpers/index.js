@@ -1,7 +1,6 @@
 const chai = require( "./chai" );
 const should = chai.should;
 const sinon = require( "sinon" );
-const httpStatus = require( "http-status" );
 const path = require( "path" );
 const proxyquire = require( "proxyquire" );
 
@@ -17,7 +16,6 @@ const requireFromRoot = function( modulePath ) {
 
 global.testHelpers = {
 	chai,
-	httpStatus,
 	should,
 	sinon,
 	proxyquire( module, ...args ) {
