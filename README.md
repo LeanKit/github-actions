@@ -157,6 +157,32 @@ Create a new card
 #### Outputs
 * error; error message if failed
 -----------
+### Assign User
+#### Input Params
+|name|description|required|
+|----|-----------|--------|
+|host|LeanKit Url (https://mycompany.leankit.com)|yes|
+|apiToken|API token for your LeanKit board|yes|
+|cardIds|Comma-separated list of cardIds to update|yes|
+|assignUserIds|Comma-separated list of userIds to that will be assigned to the cards||
+|unassignUserIds|Comma-separated list of userIds to that will be unassigned from the cards||
+|wipOverrideComment|WIP Override reason to provide, in case user is at WIP||
+
+Although they are not technically required, you must specify either `assignUserIds` or `unassignUserIds`. Validation will fail if neither is present.
+
+#### Example workflow step
+```
+- name: assign users to cards
+  uses: leankit/github-actions/assignUsers@v1
+  with:
+    host: https://YOUR-ACCOUNT.leankit.com/
+    apiToken: ${{ secrets.MY_API_TOKEN }}
+    cardIds: 1234,5678
+    assignUserIds: 1111,2222
+```
+#### Outputs
+* error; error message if failed
+-----------
 ### Validate Custom Fields
 Fail if specified custom fields do not have a value on a particular card
 #### Input Params

@@ -88,6 +88,56 @@ describe( "leankit/api", () => {
 		} );
 	} );
 
+	describe( "assignUsers", () => {
+		describe("when providing all parameters", () => {
+			beforeEach( async () => {
+				await api.assignUsers( "CARDIDS", "USERS_TO_ASSIGN", "USERS_TO_UNASSIGN", "OVERRIDE" );
+			} );
+
+			it( "should post /io/card/move with expected params", async () => {
+				got.should.be.calledOnce.and.calledWith( "BASEURL/io/card/assign", {
+					method: "POST",
+					json: {
+						cardIds: "CARDIDS",
+						userIdsToAssign: "USERS_TO_ASSIGN",
+						userIdsToUnassign: "USERS_TO_UNASSIGN",
+						wipOverrideComment: "OVERRIDE"
+					},
+					headers: {
+						Authorization: "Bearer APITOKEN"
+					}
+				})
+			} );
+
+			it( "should use json", () => {
+				got.json.should.be.calledOnce();
+			} );
+		});
+
+		describe("when providing minimal parameters", () => {
+			beforeEach( async () => {
+				await api.assignUsers( "CARDIDS" );
+			} );
+
+			it( "should post /io/card/move with expected params", async () => {
+				got.should.be.calledOnce.and.calledWith( "BASEURL/io/card/assign", {
+					method: "POST",
+					json: {
+						cardIds: "CARDIDS"
+					},
+					headers: {
+						Authorization: "Bearer APITOKEN"
+					}
+				})
+			} );
+
+			it( "should use json", () => {
+				got.json.should.be.calledOnce();
+			} );
+		});
+
+	} );
+
 	describe( "addComment", () => {
 		beforeEach( async () => {
 			await api.addComment( "CARDID", "COMMENT" );
