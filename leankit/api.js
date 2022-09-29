@@ -36,7 +36,7 @@ module.exports = ( _baseUrl, apiToken ) => {
 				headers: { Authorization }
 			} ).json();
 		},
-		assignCards: ( cardIds, userIdsToAssign, userIdsToUnassign, wipOverrideComment ) => {
+		assignUsers: ( cardIds, userIdsToAssign, userIdsToUnassign, wipOverrideComment ) => {
 			const body = {
 				cardIds
 			};

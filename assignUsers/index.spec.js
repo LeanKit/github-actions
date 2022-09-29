@@ -2,8 +2,8 @@
 
 const { sinon, proxyquire } = testHelpers;
 
-describe( "moveCard", () => {
-	let github, apiFactory, moveCard, getInputParams, validateLeankitUrl, reportError;
+describe( "assignUsers", () => {
+	let github, apiFactory, assignUsers, getInputParams, validateLeankitUrl, reportError;
 	function init() {
 		github = {
 			context: {
@@ -14,20 +14,21 @@ describe( "moveCard", () => {
 		getInputParams = sinon.stub().returns( [
 			"HOST",
 			"API_TOKEN",
-			"CARDID",
-			"LANEID",
+			" c1,c2, c3",
+			"USERS_TO_ASSIGN",
+			"USERS_TO_UNASSIGN",
 			"WIPOVERRIDE"
 		] )
 		reportError = sinon.stub();
 		validateLeankitUrl = sinon.stub();
-		moveCard = sinon.stub();
+		assignUsers = sinon.stub();
 		apiFactory = sinon.stub().returns( {
-			moveCard
+			assignUsers
 		} );
 	}
 
 	function action() {
-		return proxyquire( "~/moveCard", {
+		return proxyquire( "~/assignUsers", {
 			"../leankit/api": apiFactory,
 			"../leankit/helpers": {
 				getInputParams,
@@ -50,19 +51,32 @@ describe( "moveCard", () => {
 					required: [
 						"host",
 						"apiToken",
-						"cardId",
-						"laneId"
+						"cardIds"
 					],
 					optional: [
+						"assignUserIds",
+						"unassignUserIds",
 						"wipOverrideComment"
 					]
 				} );
 			} );
 
 			it( "should report error", async () => {
-				reportError.should.be.calledOnce.and.calledWith( "moveCard", "Input required and not supplied: SOME PARAM" );
+				reportError.should.be.calledOnce.and.calledWith( "assignUsers", "Input required and not supplied: SOME PARAM" );
 			} );
 		} );
+
+		describe("when neither assignUserIds nor unassignUserIds is present", () => {
+			beforeEach( async () => {
+				init();
+				getInputParams.returns( [ "HOST" ] );
+				await action();
+			} );
+
+			it( "should report error", async () => {
+				reportError.should.be.calledOnce.and.calledWith( "assignUsers", "Either assignUserIds or unassignUserIds must be specified" );
+			} );
+		});
 
 		describe( "with invalid host", () => {
 			beforeEach( async () => {
@@ -77,7 +91,7 @@ describe( "moveCard", () => {
 			} );
 
 			it( "should report error", () => {
-				reportError.should.be.calledOnce.and.calledWith( "moveCard", "Expected a leankit url for 'host' action parameter" );
+				reportError.should.be.calledOnce.and.calledWith( "assignUsers", "Expected a leankit url for 'host' action parameter" );
 			} );
 		} );
 	} );
@@ -92,8 +106,31 @@ describe( "moveCard", () => {
 			apiFactory.should.be.calledOnce.and.calledWith( "HOST", "API_TOKEN" );
 		} );
 
-		it( "should move card to expected lane", () => {
-			moveCard.should.be.calledOnce.and.calledWith( "CARDID", "LANEID", "WIPOVERRIDE" );
+		it( "should assign the users to the cards", () => {
+			assignUsers.should.be.calledOnce.and.calledWith( ["c1", "c2", "c3"], ["USERS_TO_ASSIGN"], ["USERS_TO_UNASSIGN"], "WIPOVERRIDE" );
+		} );
+	} );
+
+	describe( "with an empty parameter", () => {
+		beforeEach( async () => {
+			init();
+			getInputParams = sinon.stub().returns( [
+				"HOST",
+				"API_TOKEN",
+				" c1,c2, c3",
+				"USERS_TO_ASSIGN",
+				"",
+				"WIPOVERRIDE"
+			] )
+			await action();
+		} );
+
+		it( "should get leankit api", () => {
+			apiFactory.should.be.calledOnce.and.calledWith( "HOST", "API_TOKEN" );
+		} );
+
+		it( "should assign the users to the cards", () => {
+			assignUsers.should.be.calledOnce.and.calledWith( ["c1", "c2", "c3"], ["USERS_TO_ASSIGN"], [], "WIPOVERRIDE" );
 		} );
 	} );
 } );

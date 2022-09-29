@@ -7,7 +7,7 @@ function parseList( list ) {
 	if ( !list ) {
 		return [];
 	}
-	return list.trim().split( "\s*,\s" ).map( s => s.toString() );
+	return list.trim().split( /\s*,\s*/ );
 }
 
 ( async () => {
@@ -20,19 +20,19 @@ function parseList( list ) {
 		wipOverrideComment
 	] = getInputParams( { required: [ "host", "apiToken", "cardIds" ], optional: [ "assignUserIds", "unassignUserIds", "wipOverrideComment" ] } );
 
-	if (!assignUserIds && !unassignUserIds) {
+	validateLeankitUrl( "host", host );
+
+	if ( !assignUserIds && !unassignUserIds ) {
 		throw new Error( "Either assignUserIds or unassignUserIds must be specified" );
 	}
 
-	const cardIdList = parseList(cardIds);
-	const userIdsToAssign = parseList(assignUserIds);
-	const userIdsToUnassign = parseList(unassignUserIds);
+	const cardIdList = parseList( cardIds );
+	const userIdsToAssign = parseList( assignUserIds );
+	const userIdsToUnassign = parseList( unassignUserIds );
 
-	validateLeankitUrl( "host", host );
 
-	const { assignCards } = leankitApiFactory( host, apiToken );
-	await assignCards( cardIdList, userIdsToAssign, userIdsToUnassign, wipOverrideComment );
+	const { assignUsers } = leankitApiFactory( host, apiToken );
+	await assignUsers( cardIdList, userIdsToAssign, userIdsToUnassign, wipOverrideComment );
 } )().catch( ex => {
-	console.error( ex );
 	reportError( "assignUsers", ex.message );
 } );
