@@ -5,8 +5,8 @@ To consume, reference this repository, and the action. All available LeanKit Act
 
 ## Usage Notes
 
-### Api Tokens
-All LeanKit Actions require an "Api Token". This token is created in your LeanKit app. In the app, click on your user avatar, then select "Api Tokens" and follow prompts to create and copy your token. **Keep this token secure!** This api token can be used to access anything in LeanKit to which you have access, and perform actions in your name. Do not store the token in a workflow file directly -- create a 'secret' and store it in the protected secret file. See https://docs.github.com/en/actions/security-guides/encrypted-secrets for specific instructions on creating and using secrets. Consider creating a "service account" in LeanKit with access limited to only the boards necessary to perform the required actions.
+### API Tokens
+All LeanKit Actions require an "API Token". This token is created in your LeanKit app. In the app, click on your user avatar, then select "API Tokens" and follow prompts to create and copy your token. **Keep this token secure!** This api token can be used to access anything in LeanKit to which you have access, and perform actions in your name. Do not store the token in a workflow file directly -- create a 'secret' and store it in the protected secret file. See https://docs.github.com/en/actions/security-guides/encrypted-secrets for specific instructions on creating and using secrets. Consider creating a "service account" in LeanKit with access limited to only the boards necessary to perform the required actions.
 
 ### Error Messages
 When any of these actions fail, an error message will be set on the action's output 'error' property. For example, if a 'validateCustomFields' step whose id was 'validation', you could access the error message in a subsequent step (that included the `if: failed()` qualifier) using `${{ steps.validation.outputs.error }}`. We also set an environment variable when one of these actions fails, so the same error would be available at `${{ env.LK_ERROR_MESSAGE }}`.
@@ -16,7 +16,7 @@ LeanKit includes automation tools that can trigger a Github Workflow using a `re
 ```json
 {
   "automation": {
-    "description": "github action tirgger",
+    "description": "github action trigger",
     "id": "10135458880"
   },
   "card": {
@@ -65,7 +65,7 @@ Add a comment to a card
 |name|description|required|
 |----|-----------|--------|
 |host|LeanKit Url (https://mycompany.leankit.com)|yes|
-|apiToken|Api token with read access to your LeanKit board|yes|
+|apiToken|API token with read access to your LeanKit board|yes|
 |cardId|Id of the card|yes|
 |comment|Comment text|yes|
 
@@ -89,7 +89,7 @@ Block or unblock a card
 |name|description|required|
 |----|-----------|--------|
 |host|LeanKit Url (https://mycompany.leankit.com)|yes|
-|apiToken|Api token with read access to your LeanKit board|yes|
+|apiToken|API token with read access to your LeanKit board|yes|
 |cardId|Id of the card|yes|
 |isBlocked|Whether to block or unblock the card|yes|
 |blockReason|Block reason||
@@ -115,7 +115,7 @@ Create a new card
 |name|description|required|
 |----|-----------|--------|
 |host|LeanKit Url (https://mycompany.leankit.com)|yes|
-|apiToken|Api token with write access to your LeanKit board|yes|
+|apiToken|API token with write access to your LeanKit board|yes|
 |boardId|Board Id for the new card|yes|
 |title|Title of the new card|yes|
 |laneId|Optionally specify lane id for the new card. Default drop lane will be used when not set.||
@@ -140,7 +140,7 @@ Create a new card
 |name|description|required|
 |----|-----------|--------|
 |host|LeanKit Url (https://mycompany.leankit.com)|yes|
-|apiToken|Api token for your LeanKit board|yes|
+|apiToken|API token for your LeanKit board|yes|
 |cardId|Id of the card|yes|
 |laneId|Lane to move the card to|yes|
 |wipOverrideComment|WIP Override reason to provide, in case lane is at WIP||
@@ -157,13 +157,39 @@ Create a new card
 #### Outputs
 * error; error message if failed
 -----------
+### Assign User
+#### Input Params
+|name|description|required|
+|----|-----------|--------|
+|host|LeanKit Url (https://mycompany.leankit.com)|yes|
+|apiToken|API token for your LeanKit board|yes|
+|cardIds|Comma-separated list of cardIds to update|yes|
+|assignUserIds|Comma-separated list of userIds to that will be assigned to the cards||
+|unassignUserIds|Comma-separated list of userIds to that will be unassigned from the cards||
+|wipOverrideComment|WIP Override reason to provide, in case user is at WIP||
+
+Although they are not technically required, you must specify either `assignUserIds` or `unassignUserIds`. Validation will fail if neither is present.
+
+#### Example workflow step
+```
+- name: assign users to cards
+  uses: leankit/github-actions/assignUsers@v1
+  with:
+    host: https://YOUR-ACCOUNT.leankit.com/
+    apiToken: ${{ secrets.MY_API_TOKEN }}
+    cardIds: 1234,5678
+    assignUserIds: 1111,2222
+```
+#### Outputs
+* error; error message if failed
+-----------
 ### Validate Custom Fields
 Fail if specified custom fields do not have a value on a particular card
 #### Input Params
 |name|description|required|
 |----|-----------|--------|
 |host|LeanKit Url (https://mycompany.leankit.com)|yes|
-|apiToken|Api token with read access to your LeanKit board|yes|
+|apiToken|API token with read access to your LeanKit board|yes|
 |cardId|Id of the card|yes|
 |requiredCustomFields|The labels or ids of the custom fields to validate|yes|
 |customFields|Custom fields values, if available already||
