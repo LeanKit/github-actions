@@ -36,6 +36,29 @@ module.exports = ( _baseUrl, apiToken ) => {
 				headers: { Authorization }
 			} ).json();
 		},
+		assignCards: ( cardIds, userIdsToAssign, userIdsToUnassign, wipOverrideComment ) => {
+			const body = {
+				cardIds
+			};
+
+			if ( userIdsToAssign && userIdsToAssign.length ) {
+				body.userIdsToAssign = userIdsToAssign;
+			}
+
+			if ( userIdsToUnassign && userIdsToUnassign.length ) {
+				body.userIdsToUnassign = userIdsToUnassign;
+			}
+
+			if ( wipOverrideComment ) {
+				body.wipOverrideComment = wipOverrideComment;
+			}
+
+			return got( `${ baseUrl }/io/card/assign`, {
+				method: "POST",
+				json: body,
+				headers: { Authorization }
+			} ).json();
+		},
 		addComment: ( cardId, comment ) => {
 			return got( `${ baseUrl }/io/card/${ cardId }/comment`, {
 				method: "POST",

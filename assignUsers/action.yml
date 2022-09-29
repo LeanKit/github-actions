@@ -1,0 +1,22 @@
+name: "Assign users to LeanKit cards"
+description: "Assign or unassign users to cards"
+inputs:
+  host:
+    description: LeanKit Url (https://mycompany.leankit.com)
+    required: true
+  apiToken:
+    description: Api token for your LeanKit board
+    required: true
+  cardIds:
+    description: List of card ids
+    required: true
+  assignUserIds:
+    description: List of user ids to assign to the cards
+  unassignUserIds:
+    description: List of user ids to unassign from the cards
+outputs:
+  error:
+    description: Status message for errors
+runs:
+  using: "node16"
+  main: "dist/index.js"

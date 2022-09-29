@@ -12,7 +12,7 @@
     "cover": "nyc -r text-summary -r html -- npm run test:only",
     "cover:ci": "nyc -r text-summary -r html -- npm run test:ci",
     "cover:show": "open \"file://$PWD/coverage/index.html\"",
-    "build": "for i in blockCard moveCard createCard addComment validateCustomFields; do ncc build ./${i%%} -m -o ./${i%%}/dist; done",
+    "build": "for i in blockCard moveCard createCard addComment validateCustomFields assignUsers; do ncc build ./${i%%} -m -o ./${i%%}/dist; done",
     "preact": "npm run build",
     "act": "act repository_dispatch -e test_payload.json"
   },
