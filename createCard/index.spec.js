@@ -11,6 +11,8 @@ describe( "createCard", () => {
 			"API_TOKEN",
 			"BOARDID",
 			"TITLE",
+            "CUSTOMID",
+            "EXTERNALLINK",
 			"LANEID",
 			"TYPEID"
 		] );
@@ -24,7 +26,9 @@ describe( "createCard", () => {
 			boardId: "BOARDID",
 			title: "TITLE",
 			laneId: "LANEID",
-			typeId: "TYPEID"
+			typeId: "TYPEID",
+            customId: "CUSTOMID",
+            externalLink: "EXTERNALLINK"
 		 };
 	}
 
@@ -58,6 +62,8 @@ describe( "createCard", () => {
 						"title"
 					],
 					optional: [
+                        "customId",
+                        "externalLink",
 						"laneId",
 						"typeId"
 					]
@@ -116,12 +122,16 @@ describe( "createCard", () => {
 				"API_TOKEN",
 				"BOARDID",
 				"TITLE",
+                "",
+                "",
 				"",
 				""
 			] );
 			createCard.resolves( "32423423" );
 			delete expectedCardPayload.laneId;
 			delete expectedCardPayload.typeId;
+            delete expectedCardPayload.customId;
+            delete expectedCardPayload.externalLink;
 
 			await action();
 		} );

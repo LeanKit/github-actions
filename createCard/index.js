@@ -29,7 +29,7 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 	}
 
     if ( customId ) {
-		payload.typeId = customId;
+		payload.customId = customId;
 	}
     if ( externalLink ) {
 		payload.externalLink = {
