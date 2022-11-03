@@ -9,9 +9,11 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 		apiToken,
 		boardId,
 		title,
+        customId,
+        externalLink,
 		laneId,
 		typeId
-	] = getInputParams( { required: [ "host", "apiToken", "boardId", "title" ], optional: [ "laneId", "typeId" ] } );
+	] = getInputParams( { required: [ "host", "apiToken", "boardId", "title" ], optional: [ "customId", "externalLink", "laneId", "typeId" ] } );
 
 	validateLeankitUrl( "host", host );
 
@@ -25,6 +27,17 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 	if ( typeId ) {
 		payload.typeId = typeId;
 	}
+
+    if ( customId ) {
+		payload.typeId = customId;
+	}
+    if ( externalLink ) {
+		payload.externalLink = {
+            url: customId,
+            label: "Link to Github"
+        };
+	}
+
 
 	const id = await createCard( payload );
 
