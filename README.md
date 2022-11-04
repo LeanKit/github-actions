@@ -212,6 +212,16 @@ Note: the `customFields` input is available to receive custom field information 
 * customFieldsById; custom field values indexed by id
 
 ## Dev notes
+### Running Build on Windows
+As a suggestion, use VS Code as the main tool. It seems to do it right. Two things you should set:
+#### The default terminal for VS Code
+Change the default terminal to a locally installed bash, e.g. Git Bash (available after you install Git for Windows)
+#### The default terminal for npm.
+Npm has its own way of doing things, so you want to use:
+```
+npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
+```
+
 ### Integration tests
 We can use "act" to test actions locally before deploying. See https://github.com/nektos/act for installation instructions.
 
