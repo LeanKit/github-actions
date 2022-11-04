@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/keankit/github-actions.git"
+    "url": "git+https://github.com/Leankit/github-actions.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/leankit/github-actions/issues"
+    "url": "https://github.com/Leankit/github-actions/issues"
   },
-  "homepage": "https://github.com/leankit/github-actions#readme",
+  "homepage": "https://github.com/Leankit/github-actions#readme",
   "dependencies": {
     "@actions/core": "^1.2.4",
     "@actions/github": "^4.0.0",
