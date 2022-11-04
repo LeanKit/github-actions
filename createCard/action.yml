@@ -23,7 +23,7 @@ inputs:
     description: Optionally specify header for the new card.
     required: false
   externalLink:
-    description: Optionally specify a link to the GH issue.
+    description: Optionally specify a link.
     required: false
 outputs:
   error:
