@@ -122,6 +122,7 @@ Create a new card
 |typeId|Optionally specify a card type id to use. Default card type will be used when not set.||
 |customId|Optionally specify a card header||
 |externalLink|Optionally specify an external link (e.g. to issue, branch, etc.)||
+|linkLabel|Optional label for external link Defaults to ```Link to GitHub```||
 
 #### Example workflow step
 ```
