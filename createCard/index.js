@@ -9,8 +9,8 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 		apiToken,
 		boardId,
 		title,
-        customId,
-        externalLink,
+		customId,
+		externalLink,
 		laneId,
 		typeId
 	] = getInputParams( { required: [ "host", "apiToken", "boardId", "title" ], optional: [ "customId", "externalLink", "laneId", "typeId" ] } );
@@ -28,14 +28,14 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 		payload.typeId = typeId;
 	}
 
-    if ( customId ) {
+	if ( customId ) {
 		payload.customId = customId;
 	}
-    if ( externalLink ) {
+	if ( externalLink ) {
 		payload.externalLink = {
-            url: externalLink,
-            label: "Link to Github"
-        };
+	    	url: externalLink,
+	    	label: "Link to Github"
+		};
 	}
 
 

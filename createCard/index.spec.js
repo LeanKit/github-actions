@@ -28,7 +28,7 @@ describe( "createCard", () => {
 			laneId: "LANEID",
 			typeId: "TYPEID",
             customId: "CUSTOMID",
-            externalLink: "EXTERNALLINK"
+            externalLink: { label: "Link to Github", url: "EXTERNALLINK" }
 		 };
 	}
 
