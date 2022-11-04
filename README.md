@@ -118,6 +118,8 @@ Create a new card
 |apiToken|API token with write access to your LeanKit board|yes|
 |boardId|Board Id for the new card|yes|
 |title|Title of the new card|yes|
+|customId|Optionally specify a card header||
+|externalLink|Optionally specify an external link (e.g. to issue, branch, etc.)||
 |laneId|Optionally specify lane id for the new card. Default drop lane will be used when not set.||
 |typeId|Optionally specify a card type id to use. Default card type will be used when not set.||
 
@@ -130,6 +132,8 @@ Create a new card
     apiToken: ${{ secrets.MY_API_TOKEN }}
     boardId: 42304923
     title: My Card Title
+    customId: ${{github.event.repository.name}} #${{github.event.issue.number}}
+    externalLink: ${{github.event.issue.url}}
 ```
 #### Outputs
 * error; error message if failed
@@ -213,6 +217,7 @@ Note: the `customFields` input is available to receive custom field information 
 
 ## Dev notes
 ### Running Build on Windows
+
 As a suggestion, use VS Code as the main tool. It seems to do it right. Two things you should set:
 #### The default terminal for VS Code
 Change the default terminal to a locally installed bash, e.g. Git Bash (available after you install Git for Windows)
@@ -221,6 +226,7 @@ Npm has its own way of doing things, so you want to use:
 ```
 npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
 ```
+Don't forget to run `npm install`
 
 ### Integration tests
 We can use "act" to test actions locally before deploying. See https://github.com/nektos/act for installation instructions.

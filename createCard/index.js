@@ -33,7 +33,7 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 	}
     if ( externalLink ) {
 		payload.externalLink = {
-            url: customId,
+            url: externalLink,
             label: "Link to Github"
         };
 	}
