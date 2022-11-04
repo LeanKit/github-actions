@@ -118,10 +118,10 @@ Create a new card
 |apiToken|API token with write access to your LeanKit board|yes|
 |boardId|Board Id for the new card|yes|
 |title|Title of the new card|yes|
-|customId|Optionally specify a card header||
-|externalLink|Optionally specify an external link (e.g. to issue, branch, etc.)||
 |laneId|Optionally specify lane id for the new card. Default drop lane will be used when not set.||
 |typeId|Optionally specify a card type id to use. Default card type will be used when not set.||
+|customId|Optionally specify a card header||
+|externalLink|Optionally specify an external link (e.g. to issue, branch, etc.)||
 
 #### Example workflow step
 ```
