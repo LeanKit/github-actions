@@ -225,7 +225,7 @@ npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
 ### Integration tests
 We can use "act" to test actions locally before deploying. See https://github.com/nektos/act for installation instructions.
 
-tldr: `brew install act` and then `npm run act` to run tests.
+\> `brew install act` and then `npm run act` to run tests.
 
 Before you run the `act` tests, you'll need to create a `test_payload.json` file at the top level, and populate it as below, but with valid values for your test environment.
 
