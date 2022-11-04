@@ -25,6 +25,9 @@ inputs:
   externalLink:
     description: Optionally specify a link.
     required: false
+  linkLabel:
+    description: Optionally specify a label for the link.
+    required: false
 outputs:
   error:
     description: Status message for errors
