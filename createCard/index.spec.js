@@ -13,8 +13,8 @@ describe( "createCard", () => {
 			"TITLE",
 			"LANEID",
 			"TYPEID",
-            "CUSTOMID",
-            "EXTERNALLINK",
+			"CUSTOMID",
+			"EXTERNALLINK",
 			"LINKLABEL"
 		] );
 		reportError = sinon.stub();
@@ -28,8 +28,8 @@ describe( "createCard", () => {
 			title: "TITLE",
 			laneId: "LANEID",
 			typeId: "TYPEID",
-            customId: "CUSTOMID",
-            externalLink: "EXTERNALLINK",
+			customId: "CUSTOMID",
+			externalLink: "EXTERNALLINK",
 			linkLabel: "LINKLABEL"
 		 };
 	}
@@ -64,10 +64,10 @@ describe( "createCard", () => {
 						"title"
 					],
 					optional: [
-                        "laneId",
+						"laneId",
 						"typeId",
 						"customId",
-                        "externalLink",
+						"externalLink",
 						"linkLabel"
 					]
 				} );
@@ -125,8 +125,8 @@ describe( "createCard", () => {
 				"API_TOKEN",
 				"BOARDID",
 				"TITLE",
-                "",
-                "",
+				"",
+				"",
 				"",
 				"",
 				""
