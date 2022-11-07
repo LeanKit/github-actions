@@ -29,8 +29,7 @@ describe( "createCard", () => {
 			laneId: "LANEID",
 			typeId: "TYPEID",
 			customId: "CUSTOMID",
-			externalLink: "EXTERNALLINK",
-			linkLabel: "LINKLABEL"
+			externalLink: { label: "EXTERNALLINK", url: "LINKLABEL" }
 		 };
 	}
 
