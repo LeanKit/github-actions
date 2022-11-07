@@ -120,6 +120,9 @@ Create a new card
 |title|Title of the new card|yes|
 |laneId|Optionally specify lane id for the new card. Default drop lane will be used when not set.||
 |typeId|Optionally specify a card type id to use. Default card type will be used when not set.||
+|customId|Optionally specify a card header||
+|externalLink|Optionally specify an external link (e.g. to issue, branch, etc.)||
+|linkLabel|Optional label for external link Defaults to ```Link to GitHub```||
 
 #### Example workflow step
 ```
@@ -130,6 +133,8 @@ Create a new card
     apiToken: ${{ secrets.MY_API_TOKEN }}
     boardId: 42304923
     title: My Card Title
+    customId: ${{github.event.repository.name}} #${{github.event.issue.number}}
+    externalLink: ${{github.event.issue.url}}
 ```
 #### Outputs
 * error; error message if failed
@@ -212,10 +217,22 @@ Note: the `customFields` input is available to receive custom field information 
 * customFieldsById; custom field values indexed by id
 
 ## Dev notes
+### Running Build on Windows
+
+As a suggestion, use VS Code as the main tool. It seems to do it right. Two things you should set:
+#### The default terminal for VS Code
+Change the default terminal to a locally installed bash, e.g. Git Bash (available after you install Git for Windows)
+#### The default terminal for npm.
+Npm has its own way of doing things, so you want to use:
+```
+npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
+```
+Don't forget to run `npm install`
+
 ### Integration tests
 We can use "act" to test actions locally before deploying. See https://github.com/nektos/act for installation instructions.
 
-tldr: `brew install act` and then `npm run act` to run tests.
+\> `brew install act` and then `npm run act` to run tests.
 
 Before you run the `act` tests, you'll need to create a `test_payload.json` file at the top level, and populate it as below, but with valid values for your test environment.
 

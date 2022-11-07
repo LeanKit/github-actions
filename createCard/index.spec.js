@@ -12,7 +12,10 @@ describe( "createCard", () => {
 			"BOARDID",
 			"TITLE",
 			"LANEID",
-			"TYPEID"
+			"TYPEID",
+			"CUSTOMID",
+			"EXTERNALLINK",
+			"LINKLABEL"
 		] );
 		reportError = sinon.stub();
 		validateLeankitUrl = sinon.stub();
@@ -24,7 +27,9 @@ describe( "createCard", () => {
 			boardId: "BOARDID",
 			title: "TITLE",
 			laneId: "LANEID",
-			typeId: "TYPEID"
+			typeId: "TYPEID",
+			customId: "CUSTOMID",
+			externalLink: { label: "EXTERNALLINK", url: "LINKLABEL" }
 		 };
 	}
 
@@ -59,7 +64,10 @@ describe( "createCard", () => {
 					],
 					optional: [
 						"laneId",
-						"typeId"
+						"typeId",
+						"customId",
+						"externalLink",
+						"linkLabel"
 					]
 				} );
 			} );
@@ -117,11 +125,17 @@ describe( "createCard", () => {
 				"BOARDID",
 				"TITLE",
 				"",
+				"",
+				"",
+				"",
 				""
 			] );
 			createCard.resolves( "32423423" );
 			delete expectedCardPayload.laneId;
 			delete expectedCardPayload.typeId;
+			delete expectedCardPayload.customId;
+			delete expectedCardPayload.externalLink;
+			delete expectedCardPayload.linkLabel;
 
 			await action();
 		} );
