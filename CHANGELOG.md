@@ -1,6 +1,11 @@
 
 ## 1.x
 
+### 1.2.0
+
+* Upgraded dependencies
+* Add extra fields to createCard (#25)
+
 ### 1.1.0
 
 * Updated README for 1.1
