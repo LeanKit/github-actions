@@ -12,7 +12,7 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 		laneId,
 		typeId,
 		customId,
-        externalLink,
+		externalLink,
 		linkLabel
 	] = getInputParams( { required: [ "host", "apiToken", "boardId", "title" ], optional: [ "laneId", "typeId", "customId", "externalLink", "linkLabel" ] } );
 
