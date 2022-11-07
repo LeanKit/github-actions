@@ -29,7 +29,7 @@ describe( "createCard", () => {
 			laneId: "LANEID",
 			typeId: "TYPEID",
 			customId: "CUSTOMID",
-			externalLink: { label: "EXTERNALLINK", url: "LINKLABEL" }
+			externalLink: { url: "EXTERNALLINK", label: "LINKLABEL" }
 		 };
 	}
 
@@ -136,6 +136,34 @@ describe( "createCard", () => {
 			delete expectedCardPayload.customId;
 			delete expectedCardPayload.externalLink;
 			delete expectedCardPayload.linkLabel;
+
+			await action();
+		} );
+
+		it( "should create card with default type in default drop lane", () => {
+			createCard.should.be.calledOnce.and.calledWith( expectedCardPayload );
+		} );
+	} );
+
+	describe( "with external link url but no label", () => {
+		beforeEach( async () => {
+			init();
+			getInputParams = sinon.stub().returns( [
+				"https://acme.leankit.com",
+				"API_TOKEN",
+				"BOARDID",
+				"TITLE",
+				"",
+				"",
+				"",
+				"EXTERNALLINK",
+				""
+			] );
+			createCard.resolves( "32423423" );
+			delete expectedCardPayload.laneId;
+			delete expectedCardPayload.typeId;
+			delete expectedCardPayload.customId;
+			expectedCardPayload.externalLink.label = "Link to Github";
 
 			await action();
 		} );
