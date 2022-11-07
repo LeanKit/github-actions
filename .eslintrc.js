@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	extends: [ "leankit", "leankit/es6" ],
 	rules: {
@@ -8,5 +9,9 @@ module.exports = {
 	},
 	parserOptions: {
 		ecmaVersion: 2018
+	},
+	env: {
+		node: true,
+		browser: false
 	}
 };
