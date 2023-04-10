@@ -3,6 +3,7 @@
 const { getInput, getBooleanInput, setFailed, setOutput, exportVariable } = require( "@actions/core" );
 
 module.exports = {
+	setOutput,
 	getInputParams( { required = [], optional = [], asBoolean = [] } ) {
 		const values = [];
 		for ( const param of required ) {

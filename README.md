@@ -1,7 +1,7 @@
 # LeanKit Github Actions
 These Github Actions provide an easy way to interact with your LeanKit account during your build or deployment lifecycle. For more information on using Github Actions in general, see https://docs.github.com/en/actions.
 
-To consume, reference this repository, and the action. All available LeanKit Actions are in this repository only. For example: `use: leankit/github-actions/blockCard@v1.2`. See specific examples with input parameters below.
+To consume, reference this repository, and the action. All available LeanKit Actions are in this repository only. For example: `use: leankit/github-actions/blockCard@v1.3`. See specific examples with input parameters below.
 
 ## Usage Notes
 
@@ -72,7 +72,7 @@ Add a comment to a card
 #### Example workflow step
 ```
 - name: add comment to card
-  uses: leankit/github-actions/addComment@v1.2
+  uses: leankit/github-actions/addComment@v1.3
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -97,7 +97,7 @@ Block or unblock a card
 #### Example workflow step
 ```
 - name: block card
-  uses: leankit/github-actions/blockCard@v1.2
+  uses: leankit/github-actions/blockCard@v1.3
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -127,7 +127,7 @@ Create a new card
 #### Example workflow step
 ```
 - name: create card
-  uses: leankit/github-actions/createCard@v1.2
+  uses: leankit/github-actions/createCard@v1.3
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -152,7 +152,7 @@ Create a new card
 #### Example workflow step
 ```
 - name: move card
-  uses: leankit/github-actions/moveCard@v1.2
+  uses: leankit/github-actions/moveCard@v1.3
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -178,7 +178,7 @@ Although they are not technically required, you must specify either `assignUserI
 #### Example workflow step
 ```
 - name: assign users to cards
-  uses: leankit/github-actions/assignUsers@v1.2
+  uses: leankit/github-actions/assignUsers@v1.3
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -203,7 +203,7 @@ Note: the `customFields` input is available to receive custom field information 
 #### Example workflow step
 ```
 - name: validate required fields
-  uses: leankit/github-actions/validateCustomFields@v1.2
+  uses: leankit/github-actions/validateCustomFields@v1.3
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -215,6 +215,32 @@ Note: the `customFields` input is available to receive custom field information 
 * error; error message if failed
 * customFieldsByLabel; custom field values indexed by label
 * customFieldsById; custom field values indexed by id
+
+-----------
+### Extract Card Id
+Get the card id from the text of a pull request title
+#### Input Params
+|name|description|required|
+|----|-----------|--------|
+|inputText|Text that contains the card id|yes|
+Valid formats that will be identified as a card id:
+* (card 123456)
+* (LK:123456)
+* (AP 123456)
+* (123456)
+
+#### Example workflow step
+```
+  - name: get card id
+    id: getCardId
+    uses: leankit/github-actions/extractCardId@v1.3
+    with:
+      inputText: ${{ github.event.pull_request.title }}
+```
+#### Outputs
+* error; error message if failed
+* cardId; card id identified in the inputText
+
 
 ## Dev notes
 ### Running Build on Windows
@@ -232,7 +258,7 @@ Don't forget to run `npm install`
 ### Integration tests
 We can use "act" to test actions locally before deploying. See https://github.com/nektos/act for installation instructions.
 
-\> `brew install act` and then `npm run act` to run tests.
+\> `brew install act` to install act.
 
 Before you run the `act` tests, you'll need to create a `test_payload.json` file at the top level, and populate it as below, but with valid values for your test environment.
 
@@ -243,9 +269,8 @@ Before you run the `act` tests, you'll need to create a `test_payload.json` file
             "host": "https://YOURHOST.localkanban.com",
             "apiToken": "YOUR_API_TOKEN"
         },
-        "addComment": {
-            "cardId": "10114257503",
-            "comment": "custom fields lookin' good!"
+        "extractCardId": {
+            "title": "My cool new PR (card: 10121557844)"
         },
         "createCard": {
             "boardId": "10114176058",
@@ -263,7 +288,12 @@ Before you run the `act` tests, you'll need to create a `test_payload.json` file
         "validateCustomFields": {
             "cardId": "10114257503",
             "requiredCustomFields": "github owner, github repository"
+        },
+        "addComment": {
+            "cardId": "10114257503",
+            "comment": "custom fields lookin' good!"
         }
     }
 }
 ```
+The integration test suite `tests.yml` has multiple jobs. `npm run act` to run them all concurrently. Optionally specify a job to run using the `-j` flag: `npm run act -- -j getCardIdAndBlock` to run only a single job.
