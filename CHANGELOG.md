@@ -1,6 +1,11 @@
 
 ## 1.x
 
+### 1.3.0
+
+* Added 'extractCardId' to retrieve card id from pull request titles
+* Updated README to reference v1.2
+
 ### 1.2.0
 
 * Upgraded dependencies
