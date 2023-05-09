@@ -1,0 +1,83 @@
+name: Test Suite
+on:
+  repository_dispatch:
+jobs:
+  getCardIdAndBlock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: get card id
+        id: getCardId
+        uses: ./extractCardId
+        with:
+          inputText: ${{ github.event.client_payload.extractCardId.title }}
+
+      - name: result
+        run: "echo cardId: ${{ steps.getCardId.outputs.cardId }}"
+
+      - name: block card
+        id: blockCard
+        if: ${{ steps.getCardId.outputs.cardId }}
+        uses: ./blockCard
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ steps.getCardId.outputs.cardId }}
+          isBlocked: true
+          blockReason: Check the PR! Tests failed
+  createAndMove:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: create card
+        id: createCard
+        uses: ./createCard
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          boardId: ${{ github.event.client_payload.createCard.boardId }}
+          title: ${{ github.event.client_payload.createCard.title }}
+          laneId: ${{ github.event.client_payload.createCard.laneId }}
+          typeId: ${{ github.event.client_payload.createCard.typeId }}
+
+      - name: move card
+        id: moveCard
+        uses: ./moveCard
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ steps.createCard.outputs.createdCardId }}
+          laneId: ${{ github.event.client_payload.moveCard.laneId }}
+
+      - name: block card
+        id: blockCard
+        uses: ./blockCard
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ steps.createCard.outputs.createdCardId }}
+          isBlocked: ${{ github.event.client_payload.blockCard.isBlocked }}
+          blockReason: ${{ github.event.client_payload.blockCard.blockReason }}
+  validateCustomFields:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: validate
+        id: validate
+        uses: ./validateCustomFields
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.validateCustomFields.cardId }}
+          requiredCustomFields: ${{ github.event.client_payload.validateCustomFields.requiredCustomFields }}
+
+      - name: comment
+        id: comment
+        uses: ./addComment
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.addComment.cardId }}
+          comment: ${{ github.event.client_payload.addComment.comment }}
+

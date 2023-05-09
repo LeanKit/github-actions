@@ -121,7 +121,6 @@ describe( "leankit/helpers", () => {
 	} );
 	describe( "reportError", () => {
 		const error = new Error( "UH OH" );
-		console.log( "error.message:", error.message );
 
 		beforeEach( () => {
 			helpers.reportError( "someAction", error );

@@ -1,0 +1,12 @@
+name: Extract Card Id
+description: "Extract a card id from a provided text string"
+inputs:
+  inputText:
+    description: "Text string containing a numeric value"
+    required: true
+outputs:
+  cardId:
+    description: Numeric Card Id identified
+runs:
+  using: "node16"
+  main: "dist/index.js"
