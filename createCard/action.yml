@@ -34,5 +34,5 @@ outputs:
   createdCardId:
     description: id of created card (when successful)
 runs:
-  using: "node16"
+  using: "node20"
   main: "dist/index.js"
