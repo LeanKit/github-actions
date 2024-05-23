@@ -1,7 +1,7 @@
 # LeanKit Github Actions
 These Github Actions provide an easy way to interact with your LeanKit account during your build or deployment lifecycle. For more information on using Github Actions in general, see https://docs.github.com/en/actions.
 
-To consume, reference this repository, and the action. All available LeanKit Actions are in this repository only. For example: `use: leankit/github-actions/blockCard@v1.3`. See specific examples with input parameters below.
+To consume, reference this repository, and the action. All available LeanKit Actions are in this repository only. For example: `use: leankit/github-actions/blockCard@v1.4`. See specific examples with input parameters below.
 
 ## Usage Notes
 
@@ -72,7 +72,7 @@ Add a comment to a card
 #### Example workflow step
 ```
 - name: add comment to card
-  uses: leankit/github-actions/addComment@v1.3
+  uses: leankit/github-actions/addComment@v1.4
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -97,7 +97,7 @@ Block or unblock a card
 #### Example workflow step
 ```
 - name: block card
-  uses: leankit/github-actions/blockCard@v1.3
+  uses: leankit/github-actions/blockCard@v1.4
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -127,7 +127,7 @@ Create a new card
 #### Example workflow step
 ```
 - name: create card
-  uses: leankit/github-actions/createCard@v1.3
+  uses: leankit/github-actions/createCard@v1.4
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -152,7 +152,7 @@ Create a new card
 #### Example workflow step
 ```
 - name: move card
-  uses: leankit/github-actions/moveCard@v1.3
+  uses: leankit/github-actions/moveCard@v1.4
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -178,7 +178,7 @@ Although they are not technically required, you must specify either `assignUserI
 #### Example workflow step
 ```
 - name: assign users to cards
-  uses: leankit/github-actions/assignUsers@v1.3
+  uses: leankit/github-actions/assignUsers@v1.4
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -203,7 +203,7 @@ Note: the `customFields` input is available to receive custom field information 
 #### Example workflow step
 ```
 - name: validate required fields
-  uses: leankit/github-actions/validateCustomFields@v1.3
+  uses: leankit/github-actions/validateCustomFields@v1.4
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -233,7 +233,7 @@ Valid formats that will be identified as a card id:
 ```
   - name: get card id
     id: getCardId
-    uses: leankit/github-actions/extractCardId@v1.3
+    uses: leankit/github-actions/extractCardId@v1.4
     with:
       inputText: ${{ github.event.pull_request.title }}
 ```
