@@ -8,5 +8,5 @@ outputs:
   cardId:
     description: Numeric Card Id identified
 runs:
-  using: "node16"
+  using: "node20"
   main: "dist/index.js"

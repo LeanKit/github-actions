@@ -17,5 +17,5 @@ outputs:
   error:
     description: Status message for errors
 runs:
-  using: "node16"
+  using: "node20"
   main: "dist/index.js"
