@@ -76,12 +76,12 @@ module.exports = ( _baseUrl, apiToken ) => {
 			} ).json();
 			return id;
 		},
-		triggerEvent: ( boardId, cardId, eventName ) => {
+		triggerEvent: ( boardId, eventName, cardId ) => {
 			return got( `${ baseUrl }/io/board/${ boardId }/automation/externalEvent`, {
 				method: "POST",
 				json: {
-					cardId,
-					eventName
+					eventName,
+					cardId
 				},
 				headers: { Authorization }
 			} ).json();
