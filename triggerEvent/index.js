@@ -9,7 +9,7 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 		boardId,
 		cardId,
 		eventName
-	] = getInputParams( { required: [ "host", "apiToken", "boardId", "cardId", "eventName" ] } );
+	] = getInputParams( { required: [ "host", "apiToken", "boardId", "eventName" ], optional: [ "cardId" ] } );
 
 	validateLeankitUrl( "host", host );
 

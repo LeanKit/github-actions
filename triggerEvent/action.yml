@@ -12,7 +12,7 @@ inputs:
     required: true
   cardId:
     description: Card Id
-    required: true
+    required: false
   eventName:
     description: Name of the event to trigger
     required: true
