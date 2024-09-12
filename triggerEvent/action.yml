@@ -1,0 +1,24 @@
+name: "Trigger External Event"
+description: "Trigger external event on a LeanKit card"
+inputs:
+  host:
+    description: LeanKit Url (https://mycompany.leankit.com)
+    required: true
+  apiToken:
+    description: Api token with write access to your LeanKit board
+    required: true
+  boardId:
+    description: Board Id for the new card
+    required: true
+  cardId:
+    description: Card Id
+    required: true
+  eventName:
+    description: Name of the event to trigger
+    required: true
+outputs:
+  error:
+    description: Status message for errors
+runs:
+  using: "node20"
+  main: "dist/index.js"
