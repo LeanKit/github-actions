@@ -241,6 +241,56 @@ Valid formats that will be identified as a card id:
 * error; error message if failed
 * cardId; card id identified in the inputText
 
+-----------
+### Trigger Board Event
+Trigger an externalEvent on a board
+#### Input Params
+| name      | description                                 | required |
+|-----------|---------------------------------------------|----------|
+| host      | LeanKit Url (https://mycompany.leankit.com) | yes      |
+| apiToken  | API token for your LeanKit account          | yes      |
+| boardId   | Board Id to trigger the event on            | yes      |
+| eventName | Name of the event to trigger                | yes      |
+
+#### Example workflow step
+```
+  - name: trigger board event
+    id: triggerBoardEvent
+    uses: leankit/github-actions/triggerBoardEvent@v1.4
+    with:
+      host: https://YOUR-ACCOUNT.leankit.com/
+      apiToken: ${{ secrets.MY_API_TOKEN }}
+      boardId: 123456
+      eventName: my-event
+```
+#### Outputs
+* error; error message if failed
+
+-----------
+### Trigger Card Event
+Trigger an externalEvent on a card
+#### Input Params
+| name      | description                                 | required |
+|-----------|---------------------------------------------|----------|
+| host      | LeanKit Url (https://mycompany.leankit.com) | yes      |
+| apiToken  | API token for your LeanKit account          | yes      |
+| cardId    | Card Id to trigger the event on             | yes      |
+| eventName | Name of the event to trigger                | yes      |
+
+#### Example workflow step
+```
+  - name: trigger card event
+    id: triggerCardEvent
+    uses: leankit/github-actions/triggerCardEvent@v1.4
+    with:
+      host: https://YOUR-ACCOUNT.leankit.com/
+      apiToken: ${{ secrets.MY_API_TOKEN }}
+      cardId: 123456
+      eventName: my-event
+```
+#### Outputs
+* error; error message if failed
+
 
 ## Dev notes
 ### Running Build on Windows
