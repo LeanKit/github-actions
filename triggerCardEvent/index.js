@@ -16,5 +16,5 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 
 	await triggerCardEvent( cardId, eventName );
 } )().catch( ex => {
-	reportError( "createCard", ex );
+	reportError( "triggerCardEvent", ex );
 } );

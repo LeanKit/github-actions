@@ -16,5 +16,5 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 
 	await triggerBoardEvent( boardId, eventName );
 } )().catch( ex => {
-	reportError( "createCard", ex );
+	reportError( "triggerBoardEvent", ex );
 } );
