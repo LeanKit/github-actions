@@ -243,7 +243,7 @@ Valid formats that will be identified as a card id:
 
 -----------
 ### Trigger Board Event
-Trigger an externalEvent on a board
+Trigger external automation event on a board
 #### Input Params
 | name      | description                                 | required |
 |-----------|---------------------------------------------|----------|
@@ -268,7 +268,7 @@ Trigger an externalEvent on a board
 
 -----------
 ### Trigger Card Event
-Trigger an externalEvent on a card
+Trigger external automation event on a card
 #### Input Params
 | name      | description                                 | required |
 |-----------|---------------------------------------------|----------|
