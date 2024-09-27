@@ -1,4 +1,4 @@
-name: "Assign users to LeanKit cards"
+name: "Assign users to AgilePlace cards"
 description: "Assign or unassign users to cards"
 inputs:
   host:
