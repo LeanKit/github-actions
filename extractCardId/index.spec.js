@@ -27,8 +27,9 @@ describe( "extractCardId", () => {
 
 	describe( "validation", () => {
 		describe( "when validation fails", () => {
+			const error = new Error( "Input required and not supplied: SOME PARAM" );
 			beforeEach( async () => {
-				getInputParams.throws( new Error( "Input required and not supplied: SOME PARAM" ) );
+				getInputParams.throws( error );
 				await action();
 			} );
 
@@ -41,7 +42,7 @@ describe( "extractCardId", () => {
 			} );
 
 			it( "should report error", async () => {
-				reportError.should.be.calledOnce.and.calledWith( "extractCardId", "Input required and not supplied: SOME PARAM" );
+				reportError.should.be.calledOnce.and.calledWith( "extractCardId", error );
 			} );
 		} );
 	} );

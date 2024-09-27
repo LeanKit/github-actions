@@ -39,9 +39,10 @@ describe( "moveCard", () => {
 
 	describe( "validation", () => {
 		describe( "when validation fails", () => {
+			const error = new Error( "Input required and not supplied: SOME PARAM" );
 			beforeEach( async () => {
 				init();
-				getInputParams.throws( new Error( "Input required and not supplied: SOME PARAM" ) );
+				getInputParams.throws( error );
 				await action();
 			} );
 
@@ -60,15 +61,16 @@ describe( "moveCard", () => {
 			} );
 
 			it( "should report error", async () => {
-				reportError.should.be.calledOnce.and.calledWith( "moveCard", "Input required and not supplied: SOME PARAM" );
+				reportError.should.be.calledOnce.and.calledWith( "moveCard", error );
 			} );
 		} );
 
 		describe( "with invalid host", () => {
+			const error = new Error( "Expected a leankit url for 'host' action parameter" );
 			beforeEach( async () => {
 				init();
 				getInputParams.returns( [ "INVALID_HOST" ] );
-				validateLeankitUrl.throws( new Error( "Expected a leankit url for 'host' action parameter" ))
+				validateLeankitUrl.throws( error )
 				await action();
 			} );
 
@@ -77,7 +79,7 @@ describe( "moveCard", () => {
 			} );
 
 			it( "should report error", () => {
-				reportError.should.be.calledOnce.and.calledWith( "moveCard", "Expected a leankit url for 'host' action parameter" );
+				reportError.should.be.calledOnce.and.calledWith( "moveCard", error );
 			} );
 		} );
 	} );
