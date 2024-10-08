@@ -1,5 +1,5 @@
-name: "Trigger external automation event on Board"
-description: "Trigger external automation event on an AgilePlace Board"
+name: "Initiate external automation event on Board"
+description: "Initiate external automation event on an AgilePlace Board"
 inputs:
   host:
     description: AgilePlace Url (https://mycompany.leankit.com)
@@ -8,10 +8,10 @@ inputs:
     description: Api token with write access to your AgilePlace board
     required: true
   boardId:
-    description: Board Id to trigger the event on
+    description: Board Id to initiate the event on
     required: true
   eventName:
-    description: Name of the event to trigger
+    description: Name of the event to initiate
     required: true
 outputs:
   error:

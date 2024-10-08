@@ -211,10 +211,10 @@ describe( "leankit/api", () => {
 		} );
 	} );
 
-	describe( "triggerCardEvent", () => {
+	describe( "initiateCardEvent", () => {
 		beforeEach( async () => {
 			//got.json.resolves();
-			await api.triggerCardEvent( "123", "my-event" );
+			await api.initiateCardEvent( "123", "my-event" );
 		} );
 
 		it( "should post /io/card/{cardId}/automation/externalEvent with expected params", async () => {
@@ -232,10 +232,10 @@ describe( "leankit/api", () => {
 		} );
 	} );
 
-	describe( "triggerBoardEvent", () => {
+	describe( "initiateBoardEvent", () => {
 		beforeEach( async () => {
 			//got.json.resolves();
-			await api.triggerBoardEvent( "123", "my-event" );
+			await api.initiateBoardEvent( "123", "my-event" );
 		} );
 
 		it( "should post /io/board/{boardId}/automation/externalEvent with expected params", async () => {

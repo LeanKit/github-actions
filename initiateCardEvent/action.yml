@@ -1,5 +1,5 @@
-name: "Trigger external automation event on card"
-description: "Trigger external automation event on an AgilePlace card"
+name: "Initiate external automation event on card"
+description: "Initiate external automation event on an AgilePlace card"
 inputs:
   host:
     description: AgilePlace Url (https://mycompany.leankit.com)
@@ -11,7 +11,7 @@ inputs:
     description: Card Id
     required: true
   eventName:
-    description: Name of the event to trigger
+    description: Name of the event to initiate
     required: true
 outputs:
   error:

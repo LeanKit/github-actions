@@ -199,7 +199,7 @@ Fail if specified custom fields do not have a value on a particular card
 |requiredCustomFields|The labels or ids of the custom fields to validate|yes|
 |customFields|Custom fields values, if available already||
 
-Note: the `customFields` input is available to receive custom field information that was either provided in a previous step or received from the event payload. The example below demonstrates how customFields may be set if your workflow was started from a AgilePlace 'Trigger Github Action` integration step.
+Note: the `customFields` input is available to receive custom field information that was either provided in a previous step or received from the event payload. The example below demonstrates how customFields may be set if your workflow was started from a AgilePlace 'Initiate Github Action` integration step.
 #### Example workflow step
 ```
 - name: validate required fields
@@ -242,21 +242,21 @@ Valid formats that will be identified as a card id:
 * cardId; card id identified in the inputText
 
 -----------
-### Trigger Board Event
-Trigger external automation event on a board
+### Initiate Board Event
+Initiate external automation event on a board
 #### Input Params
 | name      | description                                 | required |
 |-----------|---------------------------------------------|----------|
 | host      | AgilePlace Url (https://mycompany.leankit.com) | yes      |
 | apiToken  | API token for your AgilePlace account          | yes      |
-| boardId   | Board Id to trigger the event on            | yes      |
-| eventName | Name of the event to trigger                | yes      |
+| boardId   | Board Id to initiate the event on            | yes      |
+| eventName | Name of the event to initiate                | yes      |
 
 #### Example workflow step
 ```
-  - name: trigger board event
-    id: triggerBoardEvent
-    uses: leankit/github-actions/triggerBoardEvent@v1.4
+  - name: initiate board event
+    id: initiateBoardEvent
+    uses: leankit/github-actions/initiateBoardEvent@v1.4
     with:
       host: https://YOUR-ACCOUNT.leankit.com/
       apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -267,21 +267,21 @@ Trigger external automation event on a board
 * error; error message if failed
 
 -----------
-### Trigger Card Event
-Trigger external automation event on a card
+### Initiate Card Event
+Initiate external automation event on a card
 #### Input Params
 | name      | description                                 | required |
 |-----------|---------------------------------------------|----------|
 | host      | AgilePlace Url (https://mycompany.leankit.com) | yes      |
 | apiToken  | API token for your AgilePlace account          | yes      |
-| cardId    | Card Id to trigger the event on             | yes      |
-| eventName | Name of the event to trigger                | yes      |
+| cardId    | Card Id to initiate the event on             | yes      |
+| eventName | Name of the event to initiate                | yes      |
 
 #### Example workflow step
 ```
-  - name: trigger card event
-    id: triggerCardEvent
-    uses: leankit/github-actions/triggerCardEvent@v1.4
+  - name: initiate card event
+    id: initiateCardEvent
+    uses: leankit/github-actions/initiateCardEvent@v1.4
     with:
       host: https://YOUR-ACCOUNT.leankit.com/
       apiToken: ${{ secrets.MY_API_TOKEN }}

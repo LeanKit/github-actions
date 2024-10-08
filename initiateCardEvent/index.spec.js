@@ -2,8 +2,8 @@
 
 const { sinon, proxyquire } = testHelpers;
 
-describe( "triggerCardEvent", () => {
-	let github, apiFactory, triggerCardEvent, getInputParams, validateLeankitUrl, reportError;
+describe( "initiateCardEvent", () => {
+	let github, apiFactory, initiateCardEvent, getInputParams, validateLeankitUrl, reportError;
 	function init() {
 		github = {
 			context: {
@@ -19,14 +19,14 @@ describe( "triggerCardEvent", () => {
 		] )
 		reportError = sinon.stub();
 		validateLeankitUrl = sinon.stub();
-		triggerCardEvent = sinon.stub();
+		initiateCardEvent = sinon.stub();
 		apiFactory = sinon.stub().returns( {
-			triggerCardEvent
+			initiateCardEvent
 		} );
 	}
 
 	function action() {
-		return proxyquire( "~/triggerCardEvent", {
+		return proxyquire( "~/initiateCardEvent", {
 			"../leankit/api": apiFactory,
 			"../leankit/helpers": {
 				getInputParams,
@@ -57,7 +57,7 @@ describe( "triggerCardEvent", () => {
 			} );
 
 			it( "should report error", async () => {
-				reportError.should.be.calledOnce.and.calledWith( "triggerCardEvent", error );
+				reportError.should.be.calledOnce.and.calledWith( "initiateCardEvent", error );
 			} );
 		} );
 
@@ -75,7 +75,7 @@ describe( "triggerCardEvent", () => {
 			} );
 
 			it( "should report error", () => {
-				reportError.should.be.calledOnce.and.calledWith( "triggerCardEvent", error );
+				reportError.should.be.calledOnce.and.calledWith( "initiateCardEvent", error );
 			} );
 		} );
 	} );
@@ -90,8 +90,8 @@ describe( "triggerCardEvent", () => {
 			apiFactory.should.be.calledOnce.and.calledWith( "HOST", "API_TOKEN" );
 		} );
 
-		it( "should trigger event", () => {
-			triggerCardEvent.should.be.calledOnce.and.calledWith( "CARD_ID", "EVENT_NAME" );
+		it( "should initiate event", () => {
+			initiateCardEvent.should.be.calledOnce.and.calledWith( "CARD_ID", "EVENT_NAME" );
 		} );
 	} );
 } );

@@ -76,7 +76,7 @@ module.exports = ( _baseUrl, apiToken ) => {
 			} ).json();
 			return id;
 		},
-		triggerCardEvent: ( cardId, eventName ) => {
+		initiateCardEvent: ( cardId, eventName ) => {
 			return got( `${ baseUrl }/io/card/${ cardId }/automation/externalEvent`, {
 				method: "POST",
 				json: {
@@ -85,7 +85,7 @@ module.exports = ( _baseUrl, apiToken ) => {
 				headers: { Authorization }
 			} ).json();
 		},
-		triggerBoardEvent: ( boardId, eventName ) => {
+		initiateBoardEvent: ( boardId, eventName ) => {
 			return got( `${ baseUrl }/io/board/${ boardId }/automation/externalEvent`, {
 				method: "POST",
 				json: {

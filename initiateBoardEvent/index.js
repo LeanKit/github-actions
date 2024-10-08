@@ -6,15 +6,15 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 	const [
 		host,
 		apiToken,
-		cardId,
+		boardId,
 		eventName
-	] = getInputParams( { required: [ "host", "apiToken", "cardId", "eventName" ] } );
+	] = getInputParams( { required: [ "host", "apiToken", "boardId", "eventName" ] } );
 
 	validateLeankitUrl( "host", host );
 
-	const { triggerCardEvent } = leankitApiFactory( host, apiToken );
+	const { initiateBoardEvent } = leankitApiFactory( host, apiToken );
 
-	await triggerCardEvent( cardId, eventName );
+	await initiateBoardEvent( boardId, eventName );
 } )().catch( ex => {
-	reportError( "triggerCardEvent", ex );
+	reportError( "initiateBoardEvent", ex );
 } );

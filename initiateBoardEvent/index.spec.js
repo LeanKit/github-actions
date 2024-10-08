@@ -2,8 +2,8 @@
 
 const { sinon, proxyquire } = testHelpers;
 
-describe( "triggerBoardEvent", () => {
-	let github, apiFactory, triggerBoardEvent, getInputParams, validateLeankitUrl, reportError;
+describe( "initiateBoardEvent", () => {
+	let github, apiFactory, initiateBoardEvent, getInputParams, validateLeankitUrl, reportError;
 	function init() {
 		github = {
 			context: {
@@ -19,14 +19,14 @@ describe( "triggerBoardEvent", () => {
 		] )
 		reportError = sinon.stub();
 		validateLeankitUrl = sinon.stub();
-		triggerBoardEvent = sinon.stub();
+		initiateBoardEvent = sinon.stub();
 		apiFactory = sinon.stub().returns( {
-			triggerBoardEvent
+			initiateBoardEvent
 		} );
 	}
 
 	function action() {
-		return proxyquire( "~/triggerBoardEvent", {
+		return proxyquire( "~/initiateBoardEvent", {
 			"../leankit/api": apiFactory,
 			"../leankit/helpers": {
 				getInputParams,
@@ -57,7 +57,7 @@ describe( "triggerBoardEvent", () => {
 			} );
 
 			it( "should report error", async () => {
-				reportError.should.be.calledOnce.and.calledWith( "triggerBoardEvent", error );
+				reportError.should.be.calledOnce.and.calledWith( "initiateBoardEvent", error );
 			} );
 		} );
 
@@ -75,7 +75,7 @@ describe( "triggerBoardEvent", () => {
 			} );
 
 			it( "should report error", () => {
-				reportError.should.be.calledOnce.and.calledWith( "triggerBoardEvent", error );
+				reportError.should.be.calledOnce.and.calledWith( "initiateBoardEvent", error );
 			} );
 		} );
 	} );
@@ -90,8 +90,8 @@ describe( "triggerBoardEvent", () => {
 			apiFactory.should.be.calledOnce.and.calledWith( "HOST", "API_TOKEN" );
 		} );
 
-		it( "should trigger event", () => {
-			triggerBoardEvent.should.be.calledOnce.and.calledWith( "BOARD_ID", "EVENT_NAME" );
+		it( "should initiate event", () => {
+			initiateBoardEvent.should.be.calledOnce.and.calledWith( "BOARD_ID", "EVENT_NAME" );
 		} );
 	} );
 } );
