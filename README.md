@@ -199,7 +199,7 @@ Fail if specified custom fields do not have a value on a particular card
 |requiredCustomFields|The labels or ids of the custom fields to validate|yes|
 |customFields|Custom fields values, if available already||
 
-Note: the `customFields` input is available to receive custom field information that was either provided in a previous step or received from the event payload. The example below demonstrates how customFields may be set if your workflow was started from a AgilePlace 'Initiate Github Action` integration step.
+Note: the `customFields` input is available to receive custom field information that was either provided in a previous step or received from the event payload. The example below demonstrates how customFields may be set if your workflow was started from a AgilePlace 'Trigger Github Action` integration step.
 #### Example workflow step
 ```
 - name: validate required fields
