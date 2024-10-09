@@ -5,6 +5,8 @@ inputs:
     description: "Text string containing a numeric value"
     required: true
 outputs:
+  error:
+    description: Status message for errors
   cardId:
     description: Numeric Card Id identified
 runs:

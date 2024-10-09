@@ -1,0 +1,21 @@
+name: "Initiate external automation event on Board"
+description: "Initiate external automation event on an AgilePlace Board"
+inputs:
+  host:
+    description: AgilePlace Url (https://mycompany.leankit.com)
+    required: true
+  apiToken:
+    description: Api token with write access to your AgilePlace board
+    required: true
+  boardId:
+    description: Board Id to initiate the event on
+    required: true
+  eventName:
+    description: Name of the event to initiate
+    required: true
+outputs:
+  error:
+    description: Status message for errors
+runs:
+  using: "node20"
+  main: "dist/index.js"

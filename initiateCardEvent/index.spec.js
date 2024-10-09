@@ -2,8 +2,8 @@
 
 const { sinon, proxyquire } = testHelpers;
 
-describe( "moveCard", () => {
-	let github, apiFactory, moveCard, getInputParams, validateLeankitUrl, reportError;
+describe( "initiateCardEvent", () => {
+	let github, apiFactory, initiateCardEvent, getInputParams, validateLeankitUrl, reportError;
 	function init() {
 		github = {
 			context: {
@@ -14,20 +14,19 @@ describe( "moveCard", () => {
 		getInputParams = sinon.stub().returns( [
 			"HOST",
 			"API_TOKEN",
-			"CARDID",
-			"LANEID",
-			"WIPOVERRIDE"
+			"CARD_ID",
+			"EVENT_NAME",
 		] )
 		reportError = sinon.stub();
 		validateLeankitUrl = sinon.stub();
-		moveCard = sinon.stub();
+		initiateCardEvent = sinon.stub();
 		apiFactory = sinon.stub().returns( {
-			moveCard
+			initiateCardEvent
 		} );
 	}
 
 	function action() {
-		return proxyquire( "~/moveCard", {
+		return proxyquire( "~/initiateCardEvent", {
 			"../leankit/api": apiFactory,
 			"../leankit/helpers": {
 				getInputParams,
@@ -52,16 +51,13 @@ describe( "moveCard", () => {
 						"host",
 						"apiToken",
 						"cardId",
-						"laneId"
+						"eventName"
 					],
-					optional: [
-						"wipOverrideComment"
-					]
 				} );
 			} );
 
 			it( "should report error", async () => {
-				reportError.should.be.calledOnce.and.calledWith( "moveCard", error );
+				reportError.should.be.calledOnce.and.calledWith( "initiateCardEvent", error );
 			} );
 		} );
 
@@ -79,7 +75,7 @@ describe( "moveCard", () => {
 			} );
 
 			it( "should report error", () => {
-				reportError.should.be.calledOnce.and.calledWith( "moveCard", error );
+				reportError.should.be.calledOnce.and.calledWith( "initiateCardEvent", error );
 			} );
 		} );
 	} );
@@ -94,8 +90,8 @@ describe( "moveCard", () => {
 			apiFactory.should.be.calledOnce.and.calledWith( "HOST", "API_TOKEN" );
 		} );
 
-		it( "should move card to expected lane", () => {
-			moveCard.should.be.calledOnce.and.calledWith( "CARDID", "LANEID", "WIPOVERRIDE" );
+		it( "should initiate event", () => {
+			initiateCardEvent.should.be.calledOnce.and.calledWith( "CARD_ID", "EVENT_NAME" );
 		} );
 	} );
 } );

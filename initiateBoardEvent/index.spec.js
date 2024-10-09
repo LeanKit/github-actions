@@ -2,8 +2,8 @@
 
 const { sinon, proxyquire } = testHelpers;
 
-describe( "moveCard", () => {
-	let github, apiFactory, moveCard, getInputParams, validateLeankitUrl, reportError;
+describe( "initiateBoardEvent", () => {
+	let github, apiFactory, initiateBoardEvent, getInputParams, validateLeankitUrl, reportError;
 	function init() {
 		github = {
 			context: {
@@ -14,20 +14,19 @@ describe( "moveCard", () => {
 		getInputParams = sinon.stub().returns( [
 			"HOST",
 			"API_TOKEN",
-			"CARDID",
-			"LANEID",
-			"WIPOVERRIDE"
+			"BOARD_ID",
+			"EVENT_NAME",
 		] )
 		reportError = sinon.stub();
 		validateLeankitUrl = sinon.stub();
-		moveCard = sinon.stub();
+		initiateBoardEvent = sinon.stub();
 		apiFactory = sinon.stub().returns( {
-			moveCard
+			initiateBoardEvent
 		} );
 	}
 
 	function action() {
-		return proxyquire( "~/moveCard", {
+		return proxyquire( "~/initiateBoardEvent", {
 			"../leankit/api": apiFactory,
 			"../leankit/helpers": {
 				getInputParams,
@@ -51,17 +50,14 @@ describe( "moveCard", () => {
 					required: [
 						"host",
 						"apiToken",
-						"cardId",
-						"laneId"
+						"boardId",
+						"eventName"
 					],
-					optional: [
-						"wipOverrideComment"
-					]
 				} );
 			} );
 
 			it( "should report error", async () => {
-				reportError.should.be.calledOnce.and.calledWith( "moveCard", error );
+				reportError.should.be.calledOnce.and.calledWith( "initiateBoardEvent", error );
 			} );
 		} );
 
@@ -79,7 +75,7 @@ describe( "moveCard", () => {
 			} );
 
 			it( "should report error", () => {
-				reportError.should.be.calledOnce.and.calledWith( "moveCard", error );
+				reportError.should.be.calledOnce.and.calledWith( "initiateBoardEvent", error );
 			} );
 		} );
 	} );
@@ -94,8 +90,8 @@ describe( "moveCard", () => {
 			apiFactory.should.be.calledOnce.and.calledWith( "HOST", "API_TOKEN" );
 		} );
 
-		it( "should move card to expected lane", () => {
-			moveCard.should.be.calledOnce.and.calledWith( "CARDID", "LANEID", "WIPOVERRIDE" );
+		it( "should initiate event", () => {
+			initiateBoardEvent.should.be.calledOnce.and.calledWith( "BOARD_ID", "EVENT_NAME" );
 		} );
 	} );
 } );

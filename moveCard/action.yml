@@ -2,10 +2,10 @@ name: "Move a card"
 description: "Move a card"
 inputs:
   host:
-    description: LeanKit Url (https://mycompany.leankit.com)
+    description: AgilePlace Url (https://mycompany.leankit.com)
     required: true
   apiToken:
-    description: Api token for your LeanKit board
+    description: Api token for your AgilePlace board
     required: true
   cardId:
     description: Id of the card

@@ -1,17 +1,17 @@
-name: "Add a comment to a card"
-description: "Add a comment to a card"
+name: "Initiate external automation event on card"
+description: "Initiate external automation event on an AgilePlace card"
 inputs:
   host:
     description: AgilePlace Url (https://mycompany.leankit.com)
     required: true
   apiToken:
-    description: Api token with read access to your AgilePlace board
+    description: Api token with write access to your AgilePlace board
     required: true
   cardId:
-    description: Id of the card
+    description: Card Id
     required: true
-  comment:
-    description: Comment text
+  eventName:
+    description: Name of the event to initiate
     required: true
 outputs:
   error:

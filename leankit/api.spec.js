@@ -211,6 +211,48 @@ describe( "leankit/api", () => {
 		} );
 	} );
 
+	describe( "initiateCardEvent", () => {
+		beforeEach( async () => {
+			//got.json.resolves();
+			await api.initiateCardEvent( "123", "my-event" );
+		} );
+
+		it( "should post /io/card/{cardId}/automation/externalEvent with expected params", async () => {
+			got.should.be.calledOnce.and.calledWith( "BASEURL/io/card/123/automation/externalEvent", {
+				method: "POST",
+				json: { eventName: "my-event" },
+				headers: {
+					Authorization: "Bearer APITOKEN"
+				}
+			})
+		} );
+
+		it( "should use json", () => {
+			got.json.should.be.calledOnce();
+		} );
+	} );
+
+	describe( "initiateBoardEvent", () => {
+		beforeEach( async () => {
+			//got.json.resolves();
+			await api.initiateBoardEvent( "123", "my-event" );
+		} );
+
+		it( "should post /io/board/{boardId}/automation/externalEvent with expected params", async () => {
+			got.should.be.calledOnce.and.calledWith( "BASEURL/io/board/123/automation/externalEvent", {
+				method: "POST",
+				json: { eventName: "my-event" },
+				headers: {
+					Authorization: "Bearer APITOKEN"
+				}
+			})
+		} );
+
+		it( "should use json", () => {
+			got.json.should.be.calledOnce();
+		} );
+	} );
+
 	describe( "trailing slash on baseUrl", () => {
 		it( "should remove the trailing slash", async () => {
 			api = factory( "BASEURL/", "APITOKEN" );

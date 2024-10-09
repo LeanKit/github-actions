@@ -18,5 +18,5 @@ const { getInputParams, reportError, validateLeankitUrl } = require( "../leankit
 
 	await moveCard( cardId, laneId, wipOverrideComment );
 } )().catch( ex => {
-	reportError( "moveCard", ex.message );
+	reportError( "moveCard", ex );
 } );

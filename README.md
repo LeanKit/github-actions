@@ -1,18 +1,18 @@
-# LeanKit Github Actions
-These Github Actions provide an easy way to interact with your LeanKit account during your build or deployment lifecycle. For more information on using Github Actions in general, see https://docs.github.com/en/actions.
+# AgilePlace Github Actions
+These Github Actions provide an easy way to interact with your AgilePlace account during your build or deployment lifecycle. For more information on using Github Actions in general, see https://docs.github.com/en/actions.
 
-To consume, reference this repository, and the action. All available LeanKit Actions are in this repository only. For example: `use: leankit/github-actions/blockCard@v1.4`. See specific examples with input parameters below.
+To consume, reference this repository, and the action. All available AgilePlace Actions are in this repository only. For example: `use: leankit/github-actions/blockCard@v1.4`. See specific examples with input parameters below.
 
 ## Usage Notes
 
 ### API Tokens
-All LeanKit Actions require an "API Token". This token is created in your LeanKit app. In the app, click on your user avatar, then select "API Tokens" and follow prompts to create and copy your token. **Keep this token secure!** This api token can be used to access anything in LeanKit to which you have access, and perform actions in your name. Do not store the token in a workflow file directly -- create a 'secret' and store it in the protected secret file. See https://docs.github.com/en/actions/security-guides/encrypted-secrets for specific instructions on creating and using secrets. Consider creating a "service account" in LeanKit with access limited to only the boards necessary to perform the required actions.
+All AgilePlace Actions require an "API Token". This token is created in your AgilePlace app. In the app, click on your user avatar, then select "API Tokens" and follow prompts to create and copy your token. **Keep this token secure!** This api token can be used to access anything in AgilePlace to which you have access, and perform actions in your name. Do not store the token in a workflow file directly -- create a 'secret' and store it in the protected secret file. See https://docs.github.com/en/actions/security-guides/encrypted-secrets for specific instructions on creating and using secrets. Consider creating a "service account" in AgilePlace with access limited to only the boards necessary to perform the required actions.
 
 ### Error Messages
 When any of these actions fail, an error message will be set on the action's output 'error' property. For example, if a 'validateCustomFields' step whose id was 'validation', you could access the error message in a subsequent step (that included the `if: failed()` qualifier) using `${{ steps.validation.outputs.error }}`. We also set an environment variable when one of these actions fails, so the same error would be available at `${{ env.LK_ERROR_MESSAGE }}`.
 
-### Using with LeanKit Card Automation
-LeanKit includes automation tools that can trigger a Github Workflow using a `repository_dispatch`. When triggering a workflow, we provide the following as the `client_payload`:
+### Using with AgilePlace Card Automation
+AgilePlace includes automation tools that can trigger a Github Workflow using a `repository_dispatch`. When triggering a workflow, we provide the following as the `client_payload`:
 ```json
 {
   "automation": {
@@ -64,8 +64,8 @@ Add a comment to a card
 #### Input Params
 |name|description|required|
 |----|-----------|--------|
-|host|LeanKit Url (https://mycompany.leankit.com)|yes|
-|apiToken|API token with read access to your LeanKit board|yes|
+|host|AgilePlace Url (https://mycompany.leankit.com)|yes|
+|apiToken|API token with read access to your AgilePlace board|yes|
 |cardId|Id of the card|yes|
 |comment|Comment text|yes|
 
@@ -88,8 +88,8 @@ Block or unblock a card
 #### Input Params
 |name|description|required|
 |----|-----------|--------|
-|host|LeanKit Url (https://mycompany.leankit.com)|yes|
-|apiToken|API token with read access to your LeanKit board|yes|
+|host|AgilePlace Url (https://mycompany.leankit.com)|yes|
+|apiToken|API token with read access to your AgilePlace board|yes|
 |cardId|Id of the card|yes|
 |isBlocked|Whether to block or unblock the card|yes|
 |blockReason|Block reason||
@@ -114,8 +114,8 @@ Create a new card
 #### Input Params
 |name|description|required|
 |----|-----------|--------|
-|host|LeanKit Url (https://mycompany.leankit.com)|yes|
-|apiToken|API token with write access to your LeanKit board|yes|
+|host|AgilePlace Url (https://mycompany.leankit.com)|yes|
+|apiToken|API token with write access to your AgilePlace board|yes|
 |boardId|Board Id for the new card|yes|
 |title|Title of the new card|yes|
 |laneId|Optionally specify lane id for the new card. Default drop lane will be used when not set.||
@@ -144,8 +144,8 @@ Create a new card
 #### Input Params
 |name|description|required|
 |----|-----------|--------|
-|host|LeanKit Url (https://mycompany.leankit.com)|yes|
-|apiToken|API token for your LeanKit board|yes|
+|host|AgilePlace Url (https://mycompany.leankit.com)|yes|
+|apiToken|API token for your AgilePlace board|yes|
 |cardId|Id of the card|yes|
 |laneId|Lane to move the card to|yes|
 |wipOverrideComment|WIP Override reason to provide, in case lane is at WIP||
@@ -166,8 +166,8 @@ Create a new card
 #### Input Params
 |name|description|required|
 |----|-----------|--------|
-|host|LeanKit Url (https://mycompany.leankit.com)|yes|
-|apiToken|API token for your LeanKit board|yes|
+|host|AgilePlace Url (https://mycompany.leankit.com)|yes|
+|apiToken|API token for your AgilePlace board|yes|
 |cardIds|Comma-separated list of cardIds to update|yes|
 |assignUserIds|Comma-separated list of userIds to that will be assigned to the cards||
 |unassignUserIds|Comma-separated list of userIds to that will be unassigned from the cards||
@@ -193,13 +193,13 @@ Fail if specified custom fields do not have a value on a particular card
 #### Input Params
 |name|description|required|
 |----|-----------|--------|
-|host|LeanKit Url (https://mycompany.leankit.com)|yes|
-|apiToken|API token with read access to your LeanKit board|yes|
+|host|AgilePlace Url (https://mycompany.leankit.com)|yes|
+|apiToken|API token with read access to your AgilePlace board|yes|
 |cardId|Id of the card|yes|
 |requiredCustomFields|The labels or ids of the custom fields to validate|yes|
 |customFields|Custom fields values, if available already||
 
-Note: the `customFields` input is available to receive custom field information that was either provided in a previous step or received from the event payload. The example below demonstrates how customFields may be set if your workflow was started from a LeanKit 'Trigger Github Action` integration step.
+Note: the `customFields` input is available to receive custom field information that was either provided in a previous step or received from the event payload. The example below demonstrates how customFields may be set if your workflow was started from a AgilePlace 'Trigger Github Action` integration step.
 #### Example workflow step
 ```
 - name: validate required fields
@@ -240,6 +240,56 @@ Valid formats that will be identified as a card id:
 #### Outputs
 * error; error message if failed
 * cardId; card id identified in the inputText
+
+-----------
+### Initiate Board Event
+Initiate external automation event on a board
+#### Input Params
+| name      | description                                 | required |
+|-----------|---------------------------------------------|----------|
+| host      | AgilePlace Url (https://mycompany.leankit.com) | yes      |
+| apiToken  | API token for your AgilePlace account          | yes      |
+| boardId   | Board Id to initiate the event on            | yes      |
+| eventName | Name of the event to initiate                | yes      |
+
+#### Example workflow step
+```
+  - name: initiate board event
+    id: initiateBoardEvent
+    uses: leankit/github-actions/initiateBoardEvent@v1.4
+    with:
+      host: https://YOUR-ACCOUNT.leankit.com/
+      apiToken: ${{ secrets.MY_API_TOKEN }}
+      boardId: 123456
+      eventName: my-event
+```
+#### Outputs
+* error; error message if failed
+
+-----------
+### Initiate Card Event
+Initiate external automation event on a card
+#### Input Params
+| name      | description                                 | required |
+|-----------|---------------------------------------------|----------|
+| host      | AgilePlace Url (https://mycompany.leankit.com) | yes      |
+| apiToken  | API token for your AgilePlace account          | yes      |
+| cardId    | Card Id to initiate the event on             | yes      |
+| eventName | Name of the event to initiate                | yes      |
+
+#### Example workflow step
+```
+  - name: initiate card event
+    id: initiateCardEvent
+    uses: leankit/github-actions/initiateCardEvent@v1.4
+    with:
+      host: https://YOUR-ACCOUNT.leankit.com/
+      apiToken: ${{ secrets.MY_API_TOKEN }}
+      cardId: 123456
+      eventName: my-event
+```
+#### Outputs
+* error; error message if failed
 
 
 ## Dev notes

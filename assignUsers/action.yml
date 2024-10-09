@@ -1,11 +1,11 @@
-name: "Assign users to LeanKit cards"
+name: "Assign users to AgilePlace cards"
 description: "Assign or unassign users to cards"
 inputs:
   host:
-    description: LeanKit Url (https://mycompany.leankit.com)
+    description: AgilePlace Url (https://mycompany.leankit.com)
     required: true
   apiToken:
-    description: Api token for your LeanKit board
+    description: Api token for your AgilePlace board
     required: true
   cardIds:
     description: List of card ids

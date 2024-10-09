@@ -2,10 +2,10 @@ name: "Block or unblock a card"
 description: "Block or unblock a card"
 inputs:
   host:
-    description: LeanKit Url (https://mycompany.leankit.com)
+    description: AgilePlace Url (https://mycompany.leankit.com)
     required: true
   apiToken:
-    description: Api token with read access to your LeanKit board
+    description: Api token with read access to your AgilePlace board
     required: true
   cardId:
     description: Id of the card

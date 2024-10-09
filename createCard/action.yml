@@ -1,11 +1,11 @@
 name: "Create Card"
-description: "Create a LeanKit card"
+description: "Create an AgilePlace card"
 inputs:
   host:
-    description: LeanKit Url (https://mycompany.leankit.com)
+    description: AgilePlace Url (https://mycompany.leankit.com)
     required: true
   apiToken:
-    description: Api token with write access to your LeanKit board
+    description: Api token with write access to your AgilePlace board
     required: true
   boardId:
     description: Board Id for the new card

@@ -76,6 +76,24 @@ module.exports = ( _baseUrl, apiToken ) => {
 			} ).json();
 			return id;
 		},
+		initiateCardEvent: ( cardId, eventName ) => {
+			return got( `${ baseUrl }/io/card/${ cardId }/automation/externalEvent`, {
+				method: "POST",
+				json: {
+					eventName
+				},
+				headers: { Authorization }
+			} ).json();
+		},
+		initiateBoardEvent: ( boardId, eventName ) => {
+			return got( `${ baseUrl }/io/board/${ boardId }/automation/externalEvent`, {
+				method: "POST",
+				json: {
+					eventName
+				},
+				headers: { Authorization }
+			} ).json();
+		},
 		async verifyCardPosition( cardId, laneId ) {
 			const card = await api.getCard( cardId );
 			return card.lane.id === laneId;

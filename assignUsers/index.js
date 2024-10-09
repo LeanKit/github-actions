@@ -34,5 +34,5 @@ function parseList( list ) {
 	const { assignUsers } = leankitApiFactory( host, apiToken );
 	await assignUsers( cardIdList, userIdsToAssign, userIdsToUnassign, wipOverrideComment );
 } )().catch( ex => {
-	reportError( "assignUsers", ex.message );
+	reportError( "assignUsers", ex );
 } );

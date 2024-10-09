@@ -12,5 +12,5 @@ const { getInputParams, setOutput, reportError } = require( "../leankit/helpers"
 		setOutput( "cardId", matches[ 1 ] );
 	}
 } )().catch( ex => {
-	reportError( "extractCardId", ex.message );
+	reportError( "extractCardId", ex );
 } );

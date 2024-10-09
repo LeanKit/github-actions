@@ -40,9 +40,10 @@ describe( "assignUsers", () => {
 
 	describe( "validation", () => {
 		describe( "when validation fails", () => {
+			const error = new Error( "Input required and not supplied: SOME PARAM ERROR" );
 			beforeEach( async () => {
 				init();
-				getInputParams.throws( new Error( "Input required and not supplied: SOME PARAM" ) );
+				getInputParams.throws( error);
 				await action();
 			} );
 
@@ -62,7 +63,7 @@ describe( "assignUsers", () => {
 			} );
 
 			it( "should report error", async () => {
-				reportError.should.be.calledOnce.and.calledWith( "assignUsers", "Input required and not supplied: SOME PARAM" );
+				reportError.should.be.calledOnce.and.calledWith( "assignUsers", error );
 			} );
 		} );
 
@@ -74,15 +75,17 @@ describe( "assignUsers", () => {
 			} );
 
 			it( "should report error", async () => {
-				reportError.should.be.calledOnce.and.calledWith( "assignUsers", "Either assignUserIds or unassignUserIds must be specified" );
+				reportError.should.be.calledOnce.and.calledWith( "assignUsers",
+					sinon.match({ message: "Either assignUserIds or unassignUserIds must be specified" }));
 			} );
 		});
 
 		describe( "with invalid host", () => {
+			const error = new Error( "Expected a leankit url for 'host' action parameter" );
 			beforeEach( async () => {
 				init();
 				getInputParams.returns( [ "INVALID_HOST" ] );
-				validateLeankitUrl.throws( new Error( "Expected a leankit url for 'host' action parameter" ))
+				validateLeankitUrl.throws( error )
 				await action();
 			} );
 
@@ -91,7 +94,7 @@ describe( "assignUsers", () => {
 			} );
 
 			it( "should report error", () => {
-				reportError.should.be.calledOnce.and.calledWith( "assignUsers", "Expected a leankit url for 'host' action parameter" );
+				reportError.should.be.calledOnce.and.calledWith( "assignUsers",  error);
 			} );
 		} );
 	} );
