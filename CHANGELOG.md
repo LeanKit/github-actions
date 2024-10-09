@@ -1,6 +1,10 @@
 
 ## 1.x
 
+### 1.5.0
+
+* Add external automation events for card and board (#33)
+
 ### 1.4.0
 
 * Updated to node 20
