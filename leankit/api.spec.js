@@ -62,6 +62,28 @@ describe( "leankit/api", () => {
 		} );
 	} );
 
+	describe( "addTag", () => {
+		beforeEach( async () => {
+			await api.addTag( "CARDID", "MYTAG" );
+		} );
+
+		it( "should patch /io/card/:cardId with expected params", async () => {
+			got.should.be.calledOnce.and.calledWith( "BASEURL/io/card/CARDID", {
+				method: "PATCH",
+				json: [
+					{ op: "add", path: "/tags/-", value: "MYTAG" }
+				],
+				headers: {
+					Authorization: "Bearer APITOKEN"
+				}
+			} );
+		} );
+
+		it( "should use json", () => {
+			got.json.should.be.calledOnce();
+		} );
+	} );
+
 	describe( "moveCard", () => {
 		beforeEach( async () => {
 			await api.moveCard( "CARDID", "LANEID", "OVERRIDE" );

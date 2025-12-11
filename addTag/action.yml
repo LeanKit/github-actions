@@ -1,0 +1,21 @@
+name: "Add a tag to a card"
+description: "Add a tag to a card"
+inputs:
+  host:
+    description: AgilePlace Url (https://mycompany.leankit.com)
+    required: true
+  apiToken:
+    description: Api token with write access to your AgilePlace board
+    required: true
+  cardId:
+    description: Id of the card
+    required: true
+  tag:
+    description: Tag to add to the card
+    required: true
+outputs:
+  error:
+    description: Status message for errors
+runs:
+  using: "node20"
+  main: "dist/index.js"

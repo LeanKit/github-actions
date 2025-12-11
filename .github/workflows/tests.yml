@@ -58,6 +58,15 @@ jobs:
           cardId: ${{ steps.createCard.outputs.createdCardId }}
           isBlocked: ${{ github.event.client_payload.blockCard.isBlocked }}
           blockReason: ${{ github.event.client_payload.blockCard.blockReason }}
+
+      - name: add tag
+        id: addTag
+        uses: ./addTag
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ steps.createCard.outputs.createdCardId }}
+          tag: ${{ github.event.client_payload.addTag.tag }}
   validateCustomFields:
     runs-on: ubuntu-latest
     steps:
