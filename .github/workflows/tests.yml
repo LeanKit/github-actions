@@ -5,7 +5,7 @@ jobs:
   getCardIdAndBlock:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: get card id
         id: getCardId
         uses: ./extractCardId
@@ -28,7 +28,7 @@ jobs:
   createAndMove:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: create card
         id: createCard
         uses: ./createCard
@@ -70,7 +70,7 @@ jobs:
   validateCustomFields:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: validate
         id: validate
@@ -93,7 +93,7 @@ jobs:
   checkAndAddTag:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: check if tag exists
         id: hasTag

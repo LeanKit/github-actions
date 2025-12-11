@@ -29,7 +29,7 @@
   "homepage": "https://github.com/Leankit/github-actions#readme",
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@actions/github": "^5.1.1",
+    "@actions/github": "^6.0.0",
     "got": "^11.5.0"
   },
   "devDependencies": {
