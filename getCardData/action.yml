@@ -1,0 +1,20 @@
+name: "Get Card Data"
+description: "Get the data for a card by id"
+inputs:
+  host:
+    description: AgilePlace Url (https://mycompany.leankit.com)
+    required: true
+  apiToken:
+    description: Api token with read access to your AgilePlace board
+    required: true
+  cardId:
+    description: Id of the card
+    required: true
+outputs:
+  error:
+    description: Status message for errors
+  cardData:
+    description: JSON string containing the card data
+runs:
+  using: "node24"
+  main: "dist/index.js"

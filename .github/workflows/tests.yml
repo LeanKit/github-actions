@@ -115,3 +115,24 @@ jobs:
           apiToken: ${{ github.event.client_payload.common.apiToken }}
           cardId: ${{ github.event.client_payload.addComment.cardId }}
           tag: ${{ github.event.client_payload.addTag.tag }}
+
+  getCardDataAndTagType:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: get card data
+        id: getCardData
+        uses: ./getCardData
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.addComment.cardId }}
+
+      - name: add card type as tag
+        uses: ./addTag
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.addComment.cardId }}
+          tag: ${{ fromJson(steps.getCardData.outputs.cardData).type.title }}
