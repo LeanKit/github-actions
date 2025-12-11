@@ -90,3 +90,28 @@ jobs:
           cardId: ${{ github.event.client_payload.addComment.cardId }}
           comment: ${{ github.event.client_payload.addComment.comment }}
 
+  checkAndAddTag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: check if tag exists
+        id: hasTag
+        uses: ./hasTag
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.addComment.cardId }}
+          tag: ${{ github.event.client_payload.addTag.tag }}
+
+      - name: show current tags
+        run: "echo tags: ${{ steps.hasTag.outputs.tags }}"
+
+      - name: add tag if not exists
+        if: ${{ steps.hasTag.outputs.hasTag == 'false' }}
+        uses: ./addTag
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.addComment.cardId }}
+          tag: ${{ github.event.client_payload.addTag.tag }}

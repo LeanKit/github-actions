@@ -1,0 +1,25 @@
+name: "Check if a card has a tag"
+description: "Check if a card has a specific tag (case insensitive)"
+inputs:
+  host:
+    description: AgilePlace Url (https://mycompany.leankit.com)
+    required: true
+  apiToken:
+    description: Api token with read access to your AgilePlace board
+    required: true
+  cardId:
+    description: Id of the card
+    required: true
+  tag:
+    description: Tag to check for on the card
+    required: true
+outputs:
+  hasTag:
+    description: Whether the tag exists on the card (true/false)
+  tags:
+    description: List of all tags on the card
+  error:
+    description: Status message for errors
+runs:
+  using: "node20"
+  main: "dist/index.js"
