@@ -87,7 +87,7 @@ jobs:
         with:
           host: ${{ github.event.client_payload.common.host }}
           apiToken: ${{ github.event.client_payload.common.apiToken }}
-          cardId: ${{ github.event.client_payload.addComment.cardId }}
+          cardId: ${{ github.event.client_payload.common.cardId }}
           comment: ${{ github.event.client_payload.addComment.comment }}
 
   checkAndAddTag:
@@ -101,7 +101,7 @@ jobs:
         with:
           host: ${{ github.event.client_payload.common.host }}
           apiToken: ${{ github.event.client_payload.common.apiToken }}
-          cardId: ${{ github.event.client_payload.addComment.cardId }}
+          cardId: ${{ github.event.client_payload.common.cardId }}
           tag: ${{ github.event.client_payload.addTag.tag }}
 
       - name: show current tags
@@ -113,7 +113,7 @@ jobs:
         with:
           host: ${{ github.event.client_payload.common.host }}
           apiToken: ${{ github.event.client_payload.common.apiToken }}
-          cardId: ${{ github.event.client_payload.addComment.cardId }}
+          cardId: ${{ github.event.client_payload.common.cardId }}
           tag: ${{ github.event.client_payload.addTag.tag }}
 
   getCardDataAndTagType:
@@ -127,12 +127,12 @@ jobs:
         with:
           host: ${{ github.event.client_payload.common.host }}
           apiToken: ${{ github.event.client_payload.common.apiToken }}
-          cardId: ${{ github.event.client_payload.addComment.cardId }}
+          cardId: ${{ github.event.client_payload.common.cardId }}
 
       - name: add card type as tag
         uses: ./addTag
         with:
           host: ${{ github.event.client_payload.common.host }}
           apiToken: ${{ github.event.client_payload.common.apiToken }}
-          cardId: ${{ github.event.client_payload.addComment.cardId }}
+          cardId: ${{ github.event.client_payload.common.cardId }}
           tag: ${{ fromJson(steps.getCardData.outputs.cardData).type.title }}
