@@ -1,6 +1,6 @@
 {
   "name": "github-actions",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "cover": "nyc -r text-summary -r html -- npm run test:only",
     "cover:ci": "nyc -r text-summary -r html -- npm run test:ci",
     "cover:show": "open \"file://$PWD/coverage/index.html\"",
-    "build": "for i in extractCardId blockCard moveCard createCard addComment validateCustomFields assignUsers initiateBoardEvent initiateCardEvent; do ncc build ./${i%%} -m -o ./${i%%}/dist; done",
+    "build": "for i in extractCardId blockCard moveCard createCard addComment addTag hasTag getCardData validateCustomFields assignUsers initiateBoardEvent initiateCardEvent; do ncc build ./${i%%} -m -o ./${i%%}/dist; done",
     "preact": "npm run build",
     "act": "act repository_dispatch -e test_payload.json",
     "act:watch": "act repository_dispatch -e test_payload.json -w"
@@ -29,7 +29,7 @@
   "homepage": "https://github.com/Leankit/github-actions#readme",
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@actions/github": "^5.1.1",
+    "@actions/github": "^6.0.0",
     "got": "^11.5.0"
   },
   "devDependencies": {

@@ -1,17 +1,17 @@
-name: "Add a comment to a card"
-description: "Add a comment to a card"
+name: "Add a tag to a card"
+description: "Add a tag to a card"
 inputs:
   host:
     description: AgilePlace Url (https://mycompany.leankit.com)
     required: true
   apiToken:
-    description: Api token with read access to your AgilePlace board
+    description: Api token with write access to your AgilePlace board
     required: true
   cardId:
     description: Id of the card
     required: true
-  comment:
-    description: Comment text
+  tag:
+    description: Tag to add to the card
     required: true
 outputs:
   error:

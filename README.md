@@ -1,7 +1,7 @@
 # AgilePlace Github Actions
 These Github Actions provide an easy way to interact with your AgilePlace account during your build or deployment lifecycle. For more information on using Github Actions in general, see https://docs.github.com/en/actions.
 
-To consume, reference this repository, and the action. All available AgilePlace Actions are in this repository only. For example: `use: leankit/github-actions/blockCard@v1.5`. See specific examples with input parameters below.
+To consume, reference this repository, and the action. All available AgilePlace Actions are in this repository only. For example: `use: leankit/github-actions/blockCard@v1.6`. See specific examples with input parameters below.
 
 ## Usage Notes
 
@@ -72,12 +72,36 @@ Add a comment to a card
 #### Example workflow step
 ```
 - name: add comment to card
-  uses: leankit/github-actions/addComment@v1.5
+  uses: leankit/github-actions/addComment@v1.6
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
     cardId: 12345
     comment: Hello there card you look great!
+```
+#### Outputs
+* error; error message if failed
+
+-----------
+### Add Tag
+Add a tag to a card
+#### Input Params
+|name|description|required|
+|----|-----------|--------|
+|host|AgilePlace Url (https://mycompany.leankit.com)|yes|
+|apiToken|API token with write access to your AgilePlace board|yes|
+|cardId|Id of the card|yes|
+|tag|Tag to add to the card|yes|
+
+#### Example workflow step
+```
+- name: add tag to card
+  uses: leankit/github-actions/addTag@v1.6
+  with:
+    host: https://YOUR-ACCOUNT.leankit.com/
+    apiToken: ${{ secrets.MY_API_TOKEN }}
+    cardId: 12345
+    tag: deployed
 ```
 #### Outputs
 * error; error message if failed
@@ -97,7 +121,7 @@ Block or unblock a card
 #### Example workflow step
 ```
 - name: block card
-  uses: leankit/github-actions/blockCard@v1.5
+  uses: leankit/github-actions/blockCard@v1.6
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -127,7 +151,7 @@ Create a new card
 #### Example workflow step
 ```
 - name: create card
-  uses: leankit/github-actions/createCard@v1.5
+  uses: leankit/github-actions/createCard@v1.6
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -139,6 +163,55 @@ Create a new card
 #### Outputs
 * error; error message if failed
 * createdCardId; newly created card id
+-----------
+### Get Card Data
+Get the data for a card by id
+#### Input Params
+|name|description|required|
+|----|-----------|--------|
+|host|AgilePlace Url (https://mycompany.leankit.com)|yes|
+|apiToken|API token with read access to your AgilePlace board|yes|
+|cardId|Id of the card|yes|
+
+#### Example workflow step
+```
+- name: get card data
+  uses: leankit/github-actions/getCardData@v1.6
+  with:
+    host: https://YOUR-ACCOUNT.leankit.com/
+    apiToken: ${{ secrets.MY_API_TOKEN }}
+    cardId: 12345
+```
+#### Outputs
+* error; error message if failed
+* cardData; JSON string containing the card data
+
+-----------
+### Has Tag
+Check if a card has a specific tag (case insensitive)
+#### Input Params
+|name|description|required|
+|----|-----------|--------|
+|host|AgilePlace Url (https://mycompany.leankit.com)|yes|
+|apiToken|API token with read access to your AgilePlace board|yes|
+|cardId|Id of the card|yes|
+|tag|Tag to check for on the card|yes|
+
+#### Example workflow step
+```
+- name: check if card has tag
+  uses: leankit/github-actions/hasTag@v1.6
+  with:
+    host: https://YOUR-ACCOUNT.leankit.com/
+    apiToken: ${{ secrets.MY_API_TOKEN }}
+    cardId: 12345
+    tag: deployed
+```
+#### Outputs
+* error; error message if failed
+* hasTag; whether the tag exists on the card (true/false)
+* tags; list of all tags on the card
+
 -----------
 ### Move Card
 #### Input Params
@@ -152,7 +225,7 @@ Create a new card
 #### Example workflow step
 ```
 - name: move card
-  uses: leankit/github-actions/moveCard@v1.5
+  uses: leankit/github-actions/moveCard@v1.6
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -178,7 +251,7 @@ Although they are not technically required, you must specify either `assignUserI
 #### Example workflow step
 ```
 - name: assign users to cards
-  uses: leankit/github-actions/assignUsers@v1.5
+  uses: leankit/github-actions/assignUsers@v1.6
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -203,7 +276,7 @@ Note: the `customFields` input is available to receive custom field information 
 #### Example workflow step
 ```
 - name: validate required fields
-  uses: leankit/github-actions/validateCustomFields@v1.5
+  uses: leankit/github-actions/validateCustomFields@v1.6
   with:
     host: https://YOUR-ACCOUNT.leankit.com/
     apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -233,7 +306,7 @@ Valid formats that will be identified as a card id:
 ```
   - name: get card id
     id: getCardId
-    uses: leankit/github-actions/extractCardId@v1.5
+    uses: leankit/github-actions/extractCardId@v1.6
     with:
       inputText: ${{ github.event.pull_request.title }}
 ```
@@ -256,7 +329,7 @@ Initiate external automation event on a board
 ```
   - name: initiate board event
     id: initiateBoardEvent
-    uses: leankit/github-actions/initiateBoardEvent@v1.5
+    uses: leankit/github-actions/initiateBoardEvent@v1.6
     with:
       host: https://YOUR-ACCOUNT.leankit.com/
       apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -281,7 +354,7 @@ Initiate external automation event on a card
 ```
   - name: initiate card event
     id: initiateCardEvent
-    uses: leankit/github-actions/initiateCardEvent@v1.5
+    uses: leankit/github-actions/initiateCardEvent@v1.6
     with:
       host: https://YOUR-ACCOUNT.leankit.com/
       apiToken: ${{ secrets.MY_API_TOKEN }}
@@ -317,7 +390,8 @@ Before you run the `act` tests, you'll need to create a `test_payload.json` file
     "client_payload": {
         "common": {
             "host": "https://YOURHOST.localkanban.com",
-            "apiToken": "YOUR_API_TOKEN"
+            "apiToken": "YOUR_API_TOKEN",
+            "cardId": "10114257503"
         },
         "extractCardId": {
             "title": "My cool new PR (card: 10121557844)"
@@ -340,8 +414,10 @@ Before you run the `act` tests, you'll need to create a `test_payload.json` file
             "requiredCustomFields": "github owner, github repository"
         },
         "addComment": {
-            "cardId": "10114257503",
             "comment": "custom fields lookin' good!"
+        },
+        "addTag": {
+            "tag": "my-tag"
         }
     }
 }

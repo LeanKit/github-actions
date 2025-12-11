@@ -23,6 +23,15 @@ module.exports = ( _baseUrl, apiToken ) => {
 				headers: { Authorization }
 			} ).json();
 		},
+		addTag: ( cardId, tag ) => {
+			return got( `${ baseUrl }/io/card/${ cardId }`, {
+				method: "PATCH",
+				json: [
+					{ op: "add", path: "/tags/-", value: tag }
+				],
+				headers: { Authorization }
+			} ).json();
+		},
 		moveCard: ( cardId, laneId, wipOverrideComment ) => {
 			return got( `${ baseUrl }/io/card/move`, {
 				method: "POST",

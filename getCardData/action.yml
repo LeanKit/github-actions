@@ -1,5 +1,5 @@
-name: "Add a comment to a card"
-description: "Add a comment to a card"
+name: "Get Card Data"
+description: "Get the data for a card by id"
 inputs:
   host:
     description: AgilePlace Url (https://mycompany.leankit.com)
@@ -10,12 +10,11 @@ inputs:
   cardId:
     description: Id of the card
     required: true
-  comment:
-    description: Comment text
-    required: true
 outputs:
   error:
     description: Status message for errors
+  cardData:
+    description: JSON string containing the card data
 runs:
   using: "node24"
   main: "dist/index.js"

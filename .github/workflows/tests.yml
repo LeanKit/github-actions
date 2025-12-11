@@ -5,7 +5,7 @@ jobs:
   getCardIdAndBlock:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: get card id
         id: getCardId
         uses: ./extractCardId
@@ -28,7 +28,7 @@ jobs:
   createAndMove:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: create card
         id: createCard
         uses: ./createCard
@@ -58,10 +58,19 @@ jobs:
           cardId: ${{ steps.createCard.outputs.createdCardId }}
           isBlocked: ${{ github.event.client_payload.blockCard.isBlocked }}
           blockReason: ${{ github.event.client_payload.blockCard.blockReason }}
+
+      - name: add tag
+        id: addTag
+        uses: ./addTag
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ steps.createCard.outputs.createdCardId }}
+          tag: ${{ github.event.client_payload.addTag.tag }}
   validateCustomFields:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: validate
         id: validate
@@ -78,6 +87,52 @@ jobs:
         with:
           host: ${{ github.event.client_payload.common.host }}
           apiToken: ${{ github.event.client_payload.common.apiToken }}
-          cardId: ${{ github.event.client_payload.addComment.cardId }}
+          cardId: ${{ github.event.client_payload.common.cardId }}
           comment: ${{ github.event.client_payload.addComment.comment }}
 
+  checkAndAddTag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: check if tag exists
+        id: hasTag
+        uses: ./hasTag
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.common.cardId }}
+          tag: ${{ github.event.client_payload.addTag.tag }}
+
+      - name: show current tags
+        run: "echo tags: ${{ steps.hasTag.outputs.tags }}"
+
+      - name: add tag if not exists
+        if: ${{ steps.hasTag.outputs.hasTag == 'false' }}
+        uses: ./addTag
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.common.cardId }}
+          tag: ${{ github.event.client_payload.addTag.tag }}
+
+  getCardDataAndTagType:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: get card data
+        id: getCardData
+        uses: ./getCardData
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.common.cardId }}
+
+      - name: add card type as tag
+        uses: ./addTag
+        with:
+          host: ${{ github.event.client_payload.common.host }}
+          apiToken: ${{ github.event.client_payload.common.apiToken }}
+          cardId: ${{ github.event.client_payload.common.cardId }}
+          tag: ${{ fromJson(steps.getCardData.outputs.cardData).type.title }}
